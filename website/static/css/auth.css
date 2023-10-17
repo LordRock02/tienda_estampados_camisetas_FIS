@@ -4,6 +4,23 @@ body{
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,113,1) 42%, rgba(0,167,255,1) 100%);
     font-family: 'Poppins', sans-serif;
 }
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+element{
+     flex: 1;
+}
+#logo{
+    width: 40%;
+    background-color: blue;
+}
+#logoimg{
+    width: 40%;
+    height: auto;
+}
 form{
     width: 24%;
     background-color: white;
@@ -12,10 +29,15 @@ form{
     margin-top: 150px;
 }
 .btn-primary{
-    width:100%;
+    width:85%;
     border:none;
     border-radius: 50px;
     background-color: rgb(63, 225, 75);
+}
+#signUpBtn{
+    text-align: center;
+    width:65%;
+    background-color: rgba(0,167,255,1);
 }
 .form-control{
     color: rgba(0,0,0, .87);
