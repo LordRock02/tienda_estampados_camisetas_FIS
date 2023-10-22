@@ -7,13 +7,13 @@
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous"/>       
       <style>
         body{
-          background-color:#b4d1f1;
+          background-color:#d5e3f3;
         }
       </style> 
       {% block head %}{% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-#b4d1f1" >
+    <nav class="navbar navbar-expand-lg navbar-light bg-#d5e3f3" >
       <div class="container">
         <a href="" class="navbar-brand"><img src="{{url_for('static', filename='img/neonkraken.png')}}" alt="site icon" style="width: 40px; height: auto;"><span class="text-uppercase fw-lighter ms-2"><strong>neonkraken designs</strong></span></a>
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -22,23 +22,32 @@
         <div class="collapse navbar-collapse" id="navMenu">
           <ul class="navbar-nav">
             <li class="nav-link">
-              <a class="nav-link" href="/">Home</a>
+              <a class="nav-link" href="/"><b>Home</b></a>
             </li>
             <li class="nav-link">
-              <a class="nav-link" href="/sign-in">Sign-in</a>
+              <a class="nav-link" href="/sign-in"><b>Sign-in</b></a>
             </li>
             <li class="nav-link">
-              <a class="nav-link" href="/sign-up">Sign-up</a>
+              <a class="nav-link" href="/sign-up"><b>Sign-up</b></a>
             </li>
             <li class="nav-link">
-              <a class="nav-link" href="/">About us</a>
+              <a class="nav-link" href="/"><b>About us</b></a>
             </li>
           </ul>
         </div>
         <div>
-          <button type="button" class="btn position-relative"><i class="fa fa-search"></i><span class="position-absolute top-0 start-100 translate-middle badge bg-primary"></span></button>
-          <button type="button" class="btn position-relative"><i class="fa fa-shopping-cart"></i><span class="position-absolute top-0 start-100 translate-middle badge bg-primary">{% block cart %}5{% endblock %}</span></button>
-          <button type="button" class="btn position-relative"><i class="fa fa-user"></i><span class="position-absolute top-0 start-100 translate-middle badge bg-primary"></span></button>
+          <div class="dropdown">
+            <button type="button" class="btn position-relative"><i class="fa fa-search"></i><span class="position-absolute top-0 start-100 translate-middle badge bg-primary"></span></button>
+            <button type="button" class="btn position-relative"><i class="fa fa-shopping-cart"></i><span class="position-absolute top-0 start-100 translate-middle badge bg-primary">{% block cart %}5{% endblock %}</span></button>
+            <button type="button" class="btn position-relative" data-bs-toggle="dropdown">
+              <i class="fa fa-user"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge bg-secondary"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" class="dropdown-item">Mi Perfil</a></li>
+            <li><a href="#" class="dropdown-item">Configuración</a></li>
+          </ul>
+          </div>
         </div>
       </div>
     </nav>
