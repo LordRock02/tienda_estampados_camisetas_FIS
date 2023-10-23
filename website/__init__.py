@@ -7,7 +7,7 @@ DB_NAME = "database.db"
 def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'#conecta base de datos
     db.init_app(app)
 
     from .views import views
