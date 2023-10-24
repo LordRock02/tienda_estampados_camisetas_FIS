@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, request, flash
+from .models import User, db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 auth = Blueprint('auth', __name__)
 
@@ -26,6 +28,9 @@ def sign_up():
         elif email == '':
             flash('Please introduce an E-mail', category='error')
         else:
+            new_user = User(userName = userName, email = email, password = password)
+            db.session.add(new_user)
+            db.session.commit()
             flash('Account created', category='succes')
     
     return render_template("sign_up.html")
