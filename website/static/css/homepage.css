@@ -6,8 +6,20 @@
 }
 
 .card-img-top3{
-    width: 70%;
+    padding: 5px;
+    width:85%;
+    align-self: center;
 }
-body{
-    background-color:#d5e3f3;
-  }
+
+.card-img-top2{
+    padding: 5px;
+    width:89%;
+    align-self: center;
+}
+
+.card-img-top3{
+    padding: 5px;
+    width:85%;
+    align-self: center;
+}
+

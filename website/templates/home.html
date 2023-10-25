@@ -27,39 +27,43 @@
       </div>
     </div>
   </div>
-  <div id="galeria" class="container">
-      <div class="row">
-        <div class="col-lg-4 pt-4">
-          <div class="card" style="width: 18rem;">
-            <img src="{{url_for('static', filename='img/CamisasHome/1.png')}}" class="card-img-top1" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 pt-4">
-          <div class="card" style="width: 18rem;">
-            <img src="{{url_for('static', filename='img/CamisasHome/2.png')}}" class="card-img-top2" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 pt-4">
-          <div class="card" style="width: 18rem;">
-            <img src="{{url_for('static', filename='img/CamisasHome/3.png')}}" class="card-img-top3" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
 
+
+<section id="galeria" class="container">
+    <div class="text-center pt-5">
+        <h1><span>ALGUNOS DISEÑOS</span></h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 pt-5">
+            <div class="card" style="width: 18rem;">
+                <img src="{{url_for('static', filename='img/camisasGaleria/1.png')}}" class="card-img-top1" alt="PrimeraImagen">
+                <div class="card-body">
+                  <h5 class="card-title">Primer Diseño</h5>
+                  <h5 class="card-text">10€ </h5>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+        </div>
+        <div class="col-lg-4 pt-5">
+            <div class="card" style="width: 18rem;">
+                <img src="{{url_for('static', filename='img/camisasGaleria/2.png')}}" class="card-img-top2" alt="SegundaImagen">
+                <div class="card-body">
+                  <h5 class="card-title">Segundo Diseño</h5>
+                  <h5 class="card-text">20€</h5>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+        </div>
+        <div class="col-lg-4 pt-5">
+            <div class="card" style="width: 18rem;">
+                <img src="{{url_for('static', filename='img/camisasGaleria/3.png')}}" class="card-img-top3" alt="TerceraImagen">
+                <div class="card-body">
+                  <h5 class="card-title">Tercer Diseño</h5>
+                  <h5 class="card-text">15€</h5>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+              </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
