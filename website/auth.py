@@ -1,18 +1,18 @@
 from flask import Blueprint, redirect, render_template, request, flash, url_for
-from .models import User, User_type, db
+from .models import *
 from werkzeug.security import generate_password_hash, check_password_hash
-from passlib.hash import sha256_crypt
+#from passlib.hash import sha256_crypt
 
 auth = Blueprint('auth', __name__)
 
 @auth.route('/sign-in', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        userName = request.form.get('userName')
+        nickname = request.form.get('nickname')
         password = request.form.get('password')
-        user = User.query.filter_by(username=userName).first()
+        user = User.query.filter_by(nickname=nickname).first()
         if user:
-            if password == user.password:
+            if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 return redirect(url_for('views.home'))
             else:
@@ -28,26 +28,34 @@ def logout():
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method=='POST':
-        userName=request.form.get('userName')
+        nickname=request.form.get('nickname')
         email=request.form.get('email')
         password=request.form.get('password')
         password2=request.form.get('password2')
 
-        user = User.query.filter_by(username=userName).first()
+        user = User.query.filter_by(nickname=nickname).first()
         if user:
             flash('Email already exists', category='error')
         elif password!=password2:
             flash('The passwords don\'t match', category='error')
         elif password == '' or password2 == '':
             flash('Please introduce a password', category='error')
-        elif userName == '':
+        elif nickname == '':
             flash('Please introduce a username', category='error')
         elif email == '':
             flash('Please introduce an E-mail', category='error')
         else:
-            new_user = User(username = userName, email = email, password = password, userType =1)
+            new_user = User(nickname=nickname, email = email, password = generate_password_hash(password))
+            if(generate_password_hash(password) == generate_password_hash(password)):
+                print('las contraseñas son iguales')
+            else:
+                print('las contraseñas no coinciden')
             db.session.add(new_user)
             db.session.commit()
+            new_customer = Customer(user_id=new_user.user_id)
+            db.session.add(new_customer)
+            db.session.commit()
+            print(f'id del usuario: {new_user.user_id}')
             flash('Account created', category='succes')
             return redirect(url_for('views.home'))
     return render_template("sign_up.html")

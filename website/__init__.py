@@ -1,14 +1,29 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+import subprocess
  
 db = SQLAlchemy()
-DB_NAME = "database.db"
+
+#database atributes
+DB_NAME = "database"
+
+"""FOR POSTGRES
+URL: postgresql+psycopg2://{POSTGRES_USER}:{PASSWORD}@localhost:{PORT}/{DB_NAME}"""
+
+POSTGRES_USER = "postgres"
+PASSWORD = "1234"
+PORT = 5432
+
+"""FOR SQLITE
+URL: sqlite:///{DB_NAME}.db"""
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'#conecta base de datos
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}.db'#conecta base de datos
+    
     db.init_app(app)
 
     from .views import views
@@ -22,8 +37,6 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-    if not path.exists('website/' + DB_NAME):
-        print('database isn\'t created')
 
     return app
 
