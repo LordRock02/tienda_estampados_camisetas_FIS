@@ -18,12 +18,13 @@ PORT = 5432
 """FOR SQLITE
 URL: sqlite:///{DB_NAME}.db"""
 
+UPLOAD_FOLDER = 'website/static/img/uploadedPrints'
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
-    
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}.db'#conecta base de datos
-    
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     db.init_app(app)
 
     from .views import views
