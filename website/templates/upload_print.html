@@ -4,7 +4,7 @@
 {% endblock %}
 {% block title%}{% endblock %} 
 {% block content %} 
-<form method="POST" enctype="multipart/form-data">
+<form enctype="multipart/form-data">
     <div class="center">
         <label for="input-file" id="drop-area">
             <input type="file" accept="image/*" id="input-file" name="print" hidden>
@@ -15,9 +15,40 @@
             </div>
         </label>
     </div>
-    <div class="center mt-5">
-        <button type="submit" class="btn btn-primary" id="signUpBtn" name="signUpBtn">Upload</button>
-    </div>
 </form>
+<div class="center mt-5">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Upload</button>
+</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form action="" method="post">
+        <div class="mb-3">
+          <label for="print-name" class="col-form-label">Nombra tu estampa</label>
+          <input type="text" class="form-control" name="print-name">
+        </div>
+        <div class="mb-3">
+          <select name="list">
+            {% for item in list %}
+              <option value="{{ item }}">{{ item }}</option>
+            {% endfor %}
+            </select>
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{% endblock %}
+{% endblock %} 
