@@ -11,9 +11,13 @@ views = Blueprint('views', __name__)
 def home():
     return render_template("home.html")
 
-@views.route('/prints')
+@views.route('/prints', methods=['GET', 'POST'])
 def prints():
-    return render_template("prints.html")
+    prints = Print.query.all()
+    artists = Artist.query.all()
+    if request.method == 'GET':
+        pass
+    return render_template("prints.html", prints=prints, artists=artists)
 
 @views.route('/tshirts')
 def tshirts():
@@ -32,7 +36,6 @@ def uploadDesign():
             file_path = os.path.join(UPLOAD_FOLDER, filename)
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
             uploaded_print.save(file_path)
-        #return redirect(url_for('views.design_details'))
         selected_categories = request.form.getlist('selected_categories[]')
         for category in selected_categories:
             if(category!=''):
@@ -49,4 +52,5 @@ def uploadDesign():
             db.session.add(new_print_detail)
             db.session.commit()
         return redirect(url_for('views.home'))
+        """return redirect(url_for('views.design_details'))"""
     return render_template("upload_print.html", categories=categories)
