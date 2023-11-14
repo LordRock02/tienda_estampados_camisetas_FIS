@@ -24,8 +24,8 @@ def design_details():
 @views.route('/upload-design', methods=['GET', 'POST'])
 def uploadDesign():
     categories = Category.query.all()
+    category_list = []
     if request.method=='POST':
-        print('HOla')
         uploaded_print = request.files.get('print')
         if uploaded_print.filename!='':
             filename = secure_filename(uploaded_print.filename)
@@ -35,5 +35,18 @@ def uploadDesign():
         #return redirect(url_for('views.design_details'))
         selected_categories = request.form.getlist('selected_categories[]')
         for category in selected_categories:
-            print(f"Selected category: {category}")
+            if(category!=''):
+                category_list.append(category)
+            """print(f"Selected category: {category}")"""
+        for category in category_list:
+            print(category)
+        new_print = Print(image=filename, cost=10, artist_id='1', print_name=request.form.get('print-name'))
+        db.session.add(new_print)
+        db.session.commit()
+        print(f'id de la estampa agregada {new_print.print_id}')
+        for category in category_list:
+            new_print_detail = Print_detail(print_id=new_print.print_id, category_id=category)
+            db.session.add(new_print_detail)
+            db.session.commit()
+        return redirect(url_for('views.home'))
     return render_template("upload_print.html", categories=categories)

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    //get the selected categories
     $('.category-btn').click(function(){
         if($(this).find('input').attr('value')==''){
             $(this).css({
@@ -17,6 +18,9 @@ $(document).ready(function(){
             $(this).find('i').css('color', 'gray');
             $(this).find('input').val('');            
         }
-
     });
+    $('#submitBtn').click(function(){
+        
+    });
+
 });
