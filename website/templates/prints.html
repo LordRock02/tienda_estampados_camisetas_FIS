@@ -4,88 +4,26 @@
 <h1>Prints</h1>
 <div class="container mt-5">
     <div class="row">
+      {% for print in prints %}
       <div class="col-md-3">
         <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
+          <img src="static/img/uploadedPrints/{{print.image}}" class="card-img-top" alt="{{print.image}}">
           <div class="card-body">
-            <h5 class="card-title">Producto 1</h5>
-            <p class="card-text">Descripción del producto 1.</p>
+            <h5 class="card-title">{{ print.print_name}}</h5>
+            <p class="card-text">Autor
+              <a href="#">
+                {% for artist in artists %}
+                  {% if artist.artist_id == print.artist_id%}
+                    {{artist.artist_info}}
+                  {% endif %}
+                {% endfor %}
+              </a>
+            </p>
             <a href="#" class="btn btn-primary">Ver detalles</a>
           </div>
-        </div>
+        </div> 
       </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 2</h5>
-            <p class="card-text">Descripción del producto 2.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 3</h5>
-            <p class="card-text">Descripción del producto 3.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 4</h5>
-            <p class="card-text">Descripción del producto 4.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
-    <div class="row" style="margin-top: 2%;">
-        <div class="col-md-3">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-            <div class="card-body">
-              <h5 class="card-title">Producto 1</h5>
-              <p class="card-text">Descripción del producto 1.</p>
-              <a href="#" class="btn btn-primary">Ver detalles</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-            <div class="card-body">
-              <h5 class="card-title">Producto 2</h5>
-              <p class="card-text">Descripción del producto 2.</p>
-              <a href="#" class="btn btn-primary">Ver detalles</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-            <div class="card-body">
-              <h5 class="card-title">Producto 3</h5>
-              <p class="card-text">Descripción del producto 3.</p>
-              <a href="#" class="btn btn-primary">Ver detalles</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-            <div class="card-body">
-              <h5 class="card-title">Producto 4</h5>
-              <p class="card-text">Descripción del producto 4.</p>
-              <a href="#" class="btn btn-primary">Ver detalles</a>
-            </div>
-          </div>
-        </div>
-      </div>
   </div>
 {% endblock %}

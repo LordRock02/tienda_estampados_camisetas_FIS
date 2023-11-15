@@ -55,8 +55,9 @@ class Tshirt(db.Model):
     tshirt_detail=db.relationship('Print', secondary=Tshirt_detail.__table__, backref='details')
 class Print(db.Model):
     print_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
+    image=db.Column(db.String(100), nullable=False)
     cost=db.Column(db.Integer, nullable=False)
-    description=db.Column(db.String(100))
+    print_name=db.Column(db.String(100))
     artist_id=db.Column(db.Integer, db.ForeignKey('artist.artist_id'), nullable=False)
     print_detail=db.relationship('Category', secondary=Print_detail.__table__, backref='categories')
     date= db.Column(db.DateTime(timezone=True), default=func.now())

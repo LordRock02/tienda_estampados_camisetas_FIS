@@ -4,7 +4,7 @@
 {% endblock %}
 {% block title%}{% endblock %} 
 {% block content %} 
-<form method="POST" enctype="multipart/form-data">
+<form enctype="multipart/form-data" method="POST">
     <div class="center">
         <label for="input-file" id="drop-area">
             <input type="file" accept="image/*" id="input-file" name="print" hidden>
@@ -15,97 +15,42 @@
             </div>
         </label>
     </div>
-    <div class="center mt-5">
-        <button type="submit" class="btn btn-primary" id="signUpBtn" name="signUpBtn">Upload</button>
-    </div>
-</form>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<h1 style="text-align: center
-;">Prints</h1>
-<div class="container mt-5">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 1</h5>
-            <p class="card-text">Descripción del producto 1.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
+  <div class="center mt-5">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">Upload</button>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="ModalLabel">print details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 2</h5>
-            <p class="card-text">Descripción del producto 2.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="print-name" class="col-form-label">Nombra tu estampa</label>
+            <input type="text" class="form-control" name="print-name">
           </div>
+          <div class="mb-3">
+            <div class="botones">
+              {% for category in categories %}
+                <button type="button" class="btn category-btn my-1 mx-1"  name="{{ category.category_name}}" id="{{ category.category_id }}">
+                  {{ category.category_name }}
+                  <i class="fa fa-plus" style="color: rgb(137, 137, 137);"></i>
+                  <input type="hidden" name="selected_categories[]" value="">
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+          <input type="hidden" id="hidden-input" name="hidden-input" value="">
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 3</h5>
-            <p class="card-text">Descripción del producto 3.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 4</h5>
-            <p class="card-text">Descripción del producto 4.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 2%;">
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 1</h5>
-            <p class="card-text">Descripción del producto 1.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 2</h5>
-            <p class="card-text">Descripción del producto 2.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 3</h5>
-            <p class="card-text">Descripción del producto 3.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="Imagen de la tarjeta">
-          <div class="card-body">
-            <h5 class="card-title">Producto 4</h5>
-            <p class="card-text">Descripción del producto 4.</p>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn" href="/">Save changes</button>
         </div>
       </div>
     </div>
   </div>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock %}
