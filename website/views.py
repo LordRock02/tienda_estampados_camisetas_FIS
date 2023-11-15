@@ -22,6 +22,9 @@ def prints():
 @views.route('/tshirts')
 def tshirts():
     return render_template("t-shirts.html")
+@views.route('/pago')
+def pago():
+    return render_template("pagos.html")
 @views.route('/upload-design', methods=['GET', 'POST'])
 def uploadDesign():
     categories = Category.query.all()
