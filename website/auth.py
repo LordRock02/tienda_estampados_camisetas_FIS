@@ -1,5 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, flash, url_for
 from .models import *
+from .business_logic.store import *
+from .business_logic.user import User as CurrentUser
 from werkzeug.security import generate_password_hash, check_password_hash
 #from passlib.hash import sha256_crypt
 
@@ -14,6 +16,8 @@ def login():
         if user:
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
+                sesion.setUser(CurrentUser(id =user.user_id, name=user.name, last_name=user.last_name, nickname=user.nickname, email=user.email))
+                render_template('home_base.html', isLoggedIn=True)
                 return redirect(url_for('views.home'))
             else:
                 flash('Incorrect password', category='error')

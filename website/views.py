@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
 from .models import *
+from .business_logic.store import *
 import os
 
 from website import UPLOAD_FOLDER
@@ -27,6 +28,15 @@ def pago():
     return render_template("pagos.html")
 @views.route('/upload-design', methods=['GET', 'POST'])
 def uploadDesign():
+    print(f'usuario: {sesion.getUser().getNickname()}')
+    artist = Artist.query.filter_by(user_id=sesion.getUser().getId()).first()
+    if artist: 
+        print('se encontro artista')
+    else: 
+        print('no se encontro artista')
+        artist = Artist(user_id=sesion.getUser().getId(), artist_info=f'@{sesion.getUser().getNickname()}')
+        db.session.add(artist)
+        db.session.commit()
     categories = Category.query.all()
     category_list = []
     if request.method=='POST':
@@ -43,7 +53,7 @@ def uploadDesign():
             """print(f"Selected category: {category}")"""
         for category in category_list:
             print(category)
-        new_print = Print(image=filename, cost=10, artist_id='1', print_name=request.form.get('print-name'))
+        new_print = Print(image=filename, cost=10, artist_id=artist.artist_id, print_name=request.form.get('print-name'))
         db.session.add(new_print)
         db.session.commit()
         print(f'id de la estampa agregada {new_print.print_id}')
