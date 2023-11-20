@@ -19,7 +19,9 @@
       {% for print in prints %}
       <div class="col-md-3" style="width: 18rem; margin-top: 3%;">
         <div class="card">
-          <img src="static/img/uploadedPrints/{{print.image}}" class="card-img-top img-fluid" alt="{{print.image}}">
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <img src="static/img/uploadedPrints/{{print.image}}" class="card-img-top img-fluid" alt="{{print.image}}">
+          </div>
           <div class="card-body">
             <h5 class="card-title">{{ print.print_name}}</h5>
             <p class="card-text">Autor
@@ -38,5 +40,5 @@
       {% endfor %}
     </div>
   </div>
-
+<script src="static/js/graphics.js"></script>
 {% endblock %}
