@@ -2,12 +2,24 @@
 {% block title%} Prints {% endblock %} 
 {% block content %}
 <h1>Prints</h1>
+<style>
+  .card-img-top {
+      width: 200px;
+      height: 300px; /* Establece la altura deseada para todas las tarjetas */
+  }
+
+  .card-img-top img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ajusta la imagen al contenedor manteniendo las proporciones */
+  }
+</style>
 <div class="container mt-5">
     <div class="row">
       {% for print in prints %}
-      <div class="col-md-3">
+      <div class="col-md-3" style="width: 18rem; margin-top: 3%;">
         <div class="card">
-          <img src="static/img/uploadedPrints/{{print.image}}" class="card-img-top" alt="{{print.image}}">
+          <img src="static/img/uploadedPrints/{{print.image}}" class="card-img-top img-fluid" alt="{{print.image}}">
           <div class="card-body">
             <h5 class="card-title">{{ print.print_name}}</h5>
             <p class="card-text">Autor
