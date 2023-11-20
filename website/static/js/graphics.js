@@ -27,6 +27,6 @@ $(document).ready(function(){
     var height = $('.card-img-top').clientHeight;
     var ratio = width/height;
     $('.card-img-top').height(300);
-    $('.card-img-top').width(200);
+    $('.card-img-top').width(260);
     $('.card-img-top').css('object-fit','contain');
 });
