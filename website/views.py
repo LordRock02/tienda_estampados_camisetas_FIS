@@ -1,11 +1,19 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
-from .models import *
+from .models import Print as PrintTable
+from .models import Artist
+from .models import db
+from .models import Category
+from .models import Print_detail
+from .logic.store import *
+from .logic.t_shirt import Tshirt
+from .logic.shopping_cart import ShoppingCart
 import os
 
 from website import UPLOAD_FOLDER
 
 views = Blueprint('views', __name__)
+
 
 @views.route('/')
 def home():
@@ -13,20 +21,55 @@ def home():
 
 @views.route('/prints', methods=['GET', 'POST'])
 def prints():
-    prints = Print.query.all()
+    prints = PrintTable.query.all()
     artists = Artist.query.all()
     if request.method == 'GET':
         pass
     return render_template("prints.html", prints=prints, artists=artists)
 
-@views.route('/tshirts')
+@views.route('/tshirts', methods=['GET', 'POST'])
 def tshirts():
     return render_template("t-shirts.html")
-@views.route('/design-details', methods=['GET', 'POST'])
-def design_details():
-    return render_template('print_details.html')
+
+
+
+@views.route('/tshirts_view', methods=['GET', 'POST'])
+def tshirts_view():
+    from .logic.t_shirt import precios
+    return render_template('t-shirts_view.html', precios=precios)
+
+
+@views.route('/calcular_total', methods=['POST'])
+def calcular_total():
+    size = request.form['size']
+    quantity = int(request.form['quantity'])
+    from .logic.t_shirt import precios
+    price_per_unit = precios.get(size, 19.99)
+    for i in range(quantity):
+        sesion.addToCart(Tshirt(name='default', cost=precios.get(size, 19.99),size=size))
+    return render_template('pagos.html', size=size, quantity=quantity, total=sesion.getShoppingCart().getTotal())
+
+
+
+
+@views.route('/pago')
+def pago():
+    return render_template("pagos.html")
+
+
+
+
 @views.route('/upload-design', methods=['GET', 'POST'])
 def uploadDesign():
+    print(f'usuario: {sesion.getUser().getNickname()}')
+    artist = Artist.query.filter_by(user_id=sesion.getUser().getId()).first()
+    if artist: 
+        print('se encontro artista')
+    else: 
+        print('no se encontro artista')
+        artist = Artist(user_id=sesion.getUser().getId(), artist_info=f'@{sesion.getUser().getNickname()}')
+        db.session.add(artist)
+        db.session.commit()
     categories = Category.query.all()
     category_list = []
     if request.method=='POST':
@@ -43,7 +86,7 @@ def uploadDesign():
             """print(f"Selected category: {category}")"""
         for category in category_list:
             print(category)
-        new_print = Print(image=filename, cost=10, artist_id='1', print_name=request.form.get('print-name'))
+        new_print = PrintTable(image=filename, cost=10, artist_id=artist.artist_id, print_name=request.form.get('print-name'))
         db.session.add(new_print)
         db.session.commit()
         print(f'id de la estampa agregada {new_print.print_id}')

@@ -22,5 +22,11 @@ $(document).ready(function(){
     $('#submitBtn').click(function(){
         
     });
-
+    
+    var width = $('.card-img-top').clientWidth;
+    var height = $('.card-img-top').clientHeight;
+    var ratio = width/height;
+    $('.card-img-top').height(300);
+    $('.card-img-top').width(260);
+    $('.card-img-top').css('object-fit','contain');
 });

@@ -12,6 +12,9 @@ class Tshirt_detail(db.Model):
 class Print_detail(db.Model):
     print_id=db.Column(db.Integer, db.ForeignKey('print.print_id'), primary_key=True) 
     category_id=db.Column(db.Integer, db.ForeignKey('category.category_id'), primary_key=True)
+class Purchase_detail(db.Model):
+    tshirt_id=db.Column(db.Integer, db.ForeignKey('tshirt.tshirt_id'), primary_key=True)
+    purchase_id=db.Column(db.Integer, db.ForeignKey('purchase.purchase_id'), primary_key=True)
 #entity tables
 class User(db.Model):
     user_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
@@ -45,13 +48,14 @@ class Payment_method(db.Model):
 class purchase(db.Model):
     purchase_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     customer_id=db.Column(db.Integer, db.ForeignKey('customer.customer_id'))
+    Purchase_detail=db.relationship('Tshirt', secondary=Purchase_detail.__table__, backref='tshirts')
     date= db.Column(db.DateTime(timezone=True), default=func.now())
 class Tshirt(db.Model):
     tshirt_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     size=db.Column(db.String(10), nullable=False)
     cost=db.Column(db.Integer, nullable=False)
+    name=db.Column(db.String(50))
     description=db.Column(db.String(100))
-    purchase=db.Column(db.Integer, db.ForeignKey('purchase.purchase_id'))
     tshirt_detail=db.relationship('Print', secondary=Tshirt_detail.__table__, backref='details')
 class Print(db.Model):
     print_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)

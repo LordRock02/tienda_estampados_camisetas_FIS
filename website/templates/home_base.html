@@ -49,8 +49,14 @@
             <span class="position-absolute top-0 start-100 translate-middle badge bg-secondary"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a href="/sign-in" class="dropdown-item">Sign-in</a></li>
-            <li><a href="/sign-up" class="dropdown-item">Sign-up</a></li>
+            {% set flag = False %}
+            {% if flag %}
+              <li><a href="/sign-in" class="dropdown-item">your acount</a></li>
+              <li><a href="/sign-up" class="dropdown-item">Log out</a></li>
+            {% else %}
+              <li><a href="/sign-in" class="dropdown-item">Sign-in</a></li>
+              <li><a href="/sign-up" class="dropdown-item">Sign-up</a></li>
+            {% endif %}
           </ul>
           </div>
         </div>
@@ -62,7 +68,7 @@
     </div>
     <div>
     </div>
-    <footer class="bg-dark text-white mt-5">
+    <footer class="bg-#e6e6e6 text-black mt-5">
       <div class="container">
         <div class="row">
           <div class="col-md-4">
