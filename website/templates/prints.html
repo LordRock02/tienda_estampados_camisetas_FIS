@@ -1,7 +1,6 @@
 {% extends "home_base.html" %}
 {% block title%} Prints {% endblock %} 
 {% block content %}
-<h1>Prints</h1>
 <style>
   .card-img-top {
       width: 200px;
@@ -15,6 +14,7 @@
   }
 </style>
 <div class="container mt-5">
+  <h1>Prints</h1>
     <div class="row">
       {% for print in prints %}
       <div class="col-md-3" style="width: 18rem; margin-top: 3%;">
