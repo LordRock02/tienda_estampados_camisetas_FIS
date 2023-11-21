@@ -8,6 +8,13 @@ from website import UPLOAD_FOLDER
 
 views = Blueprint('views', __name__)
 
+precios = {
+    'small': 29500,
+    'medium': 29500,
+    'large': 29500,
+    'xlarge': 29500
+}
+
 @views.route('/')
 def home():
     return render_template("home.html")
@@ -23,9 +30,34 @@ def prints():
 @views.route('/tshirts')
 def tshirts():
     return render_template("t-shirts.html")
+
+
+
+@views.route('/tshirts_view', methods=['GET', 'POST'])
+def tshirts_view():
+    return render_template('t-shirts_view.html', precios=precios)
+
+
+@views.route('/calcular_total', methods=['POST'])
+def calcular_total():
+    size = request.form['size']
+    quantity = int(request.form['quantity'])
+    price_per_unit = precios.get(size, 19.99)
+
+    total = price_per_unit * quantity
+
+    return render_template('pagos.html', size=size, quantity=quantity, total=total)
+
+
+
+
 @views.route('/pago')
 def pago():
     return render_template("pagos.html")
+
+
+
+
 @views.route('/upload-design', methods=['GET', 'POST'])
 def uploadDesign():
     print(f'usuario: {sesion.getUser().getNickname()}')
