@@ -3,10 +3,10 @@ from typing import Any
 
 class User:
 
-    def __init__(self, id='', name='', last_name='', nickname='', email=''):
+    def __init__(self, id='', name='', lastName='', nickname='', email=''):
         self.__id = id
         self.__name = name
-        self.__last_name = last_name
+        self.__lastName = lastName
         self.__nickname = nickname
         self.__email = email
 
@@ -23,10 +23,10 @@ class User:
         self.__name = name
 
     def getLast_name(self):
-        return self.__last_name
+        return self.__lastName
     
-    def setLast_name(self, last_name):
-        self.__last_name = last_name
+    def setLast_name(self, lastName):
+        self.__lastName = lastName
 
     def getNickname(self):
         return self.__nickname

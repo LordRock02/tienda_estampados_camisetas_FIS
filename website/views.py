@@ -1,19 +1,19 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
-from .models import *
-from .business_logic.store import *
+from .models import Print as PrintTable
+from .models import Artist
+from .models import db
+from .models import Category
+from .models import Print_detail
+from .logic.store import *
+from .logic.t_shirt import Tshirt
+from .logic.shopping_cart import ShoppingCart
 import os
 
 from website import UPLOAD_FOLDER
 
 views = Blueprint('views', __name__)
 
-precios = {
-    'small': 29500,
-    'medium': 29500,
-    'large': 29500,
-    'xlarge': 29500
-}
 
 @views.route('/')
 def home():
@@ -21,7 +21,7 @@ def home():
 
 @views.route('/prints', methods=['GET', 'POST'])
 def prints():
-    prints = Print.query.all()
+    prints = PrintTable.query.all()
     artists = Artist.query.all()
     if request.method == 'GET':
         pass
@@ -35,6 +35,7 @@ def tshirts():
 
 @views.route('/tshirts_view', methods=['GET', 'POST'])
 def tshirts_view():
+    from .logic.t_shirt import precios
     return render_template('t-shirts_view.html', precios=precios)
 
 
@@ -42,11 +43,11 @@ def tshirts_view():
 def calcular_total():
     size = request.form['size']
     quantity = int(request.form['quantity'])
+    from .logic.t_shirt import precios
     price_per_unit = precios.get(size, 19.99)
-
-    total = price_per_unit * quantity
-
-    return render_template('pagos.html', size=size, quantity=quantity, total=total)
+    for i in range(quantity):
+        sesion.addToCart(Tshirt(name='default', cost=precios.get(size, 19.99),size=size))
+    return render_template('pagos.html', size=size, quantity=quantity, total=sesion.getShoppingCart().getTotal())
 
 
 
@@ -85,7 +86,7 @@ def uploadDesign():
             """print(f"Selected category: {category}")"""
         for category in category_list:
             print(category)
-        new_print = Print(image=filename, cost=10, artist_id=artist.artist_id, print_name=request.form.get('print-name'))
+        new_print = PrintTable(image=filename, cost=10, artist_id=artist.artist_id, print_name=request.form.get('print-name'))
         db.session.add(new_print)
         db.session.commit()
         print(f'id de la estampa agregada {new_print.print_id}')
