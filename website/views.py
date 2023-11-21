@@ -27,7 +27,7 @@ def prints():
         pass
     return render_template("prints.html", prints=prints, artists=artists)
 
-@views.route('/tshirts')
+@views.route('/tshirts', methods=['GET', 'POST'])
 def tshirts():
     return render_template("t-shirts.html")
 

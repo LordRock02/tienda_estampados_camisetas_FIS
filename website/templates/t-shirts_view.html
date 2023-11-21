@@ -4,7 +4,7 @@
 <div class="container mt-5">
     <form action="/calcular_total" method="post" class="col-md-6 offset-md-3">
         <h2 class="mb-4">Camiseta Estándar</h2>
-        <img src="{{ url_for('static', filename='camiseta.jpg') }}" alt="Camiseta Estándar" class="img-fluid mb-4">
+        <img src="{{url_for('static', filename='img/CamisasHome/1.png')}}" alt="Camiseta Estándar" class="img-fluid mb-4">
 
         <div class="form-group">
             <label for="size">Talla:</label>
@@ -20,7 +20,7 @@
             <input type="number" class="form-control" name="quantity" min="1" value="1">
         </div>
 
-        <button type="submit" class="btn btn-primary">Calcular Total</button>
+        <button type="submit" class="btn btn-primary" style="margin-top: 3%;">Comprar</button>
     </form>
 </div>
 {% endblock %}
