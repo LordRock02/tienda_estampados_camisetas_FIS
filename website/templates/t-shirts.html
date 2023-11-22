@@ -16,11 +16,11 @@
 <div class="container mt-5">
   <h1>T-Shirts</h1>
     <div class="row">
-      {% for tshirt in tshirt %}
+      {% for tshirt in tshirts %}
       <div class="col-md-3" style="width: 18rem; margin-top: 3%;">
         <div class="card">
           <div style="display: flex; justify-content: center; align-items: center;">
-            <img src="static/img/uploadedPrints/{{tshirt.image}}" class="card-img-top img-fluid" alt="{{tshirt.image}}">
+            <img src="static/img/CamisasHome/{{tshirt.image}}" class="card-img-top img-fluid" alt="{{tshirt.image}}">
           </div>
           <div class="card-body">
             <h5 class="card-title">{{ tshirt.tshirt_name}}</h5>
