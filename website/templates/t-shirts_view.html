@@ -3,14 +3,11 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row">
-        <!-- Tarjeta de la imagen -->
         <div class="col-md-6">
             <div class="card">
                 <img src="{{url_for('static', filename='img/CamisasHome/1.png')}}" alt="Camiseta Estándar" class="card-img-top">
             </div>
         </div>
-
-        <!-- Tarjeta del formulario -->
         <div class="col-md-6">
             <form action="/calcular_total" method="post" class="card-body">
                 <h2 class="mb-4">Camiseta Estándar</h2>
