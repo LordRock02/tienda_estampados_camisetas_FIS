@@ -2,6 +2,7 @@ $(document).ready(function(){
     //get the selected categories
     $('.category-btn').click(function(){
         if($(this).find('input').attr('value')==''){
+            alert('hols')
             $(this).css({
                 'background-color': 'rgb(108, 92, 240)',
                 'color': 'white'
@@ -22,11 +23,16 @@ $(document).ready(function(){
     $('#submitBtn').click(function(){
         
     });
-    
+    // reescale images
     var width = $('.card-img-top').clientWidth;
     var height = $('.card-img-top').clientHeight;
     var ratio = width/height;
     $('.card-img-top').height(300);
     $('.card-img-top').width(260);
     $('.card-img-top').css('object-fit','contain');
+
+    $('#signInBtn').click(function(){
+        alert('boton presionado')
+    })
+
 });
