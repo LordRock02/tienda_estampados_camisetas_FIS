@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
 from .models import Print as PrintTable
+from .models import Tshirt as TshirtTable
 from .models import Artist
 from .models import db
 from .models import Category
@@ -29,7 +30,10 @@ def prints():
 
 @views.route('/tshirts', methods=['GET', 'POST'])
 def tshirts():
-    return render_template("t-shirts.html")
+    tshirts = TshirtTable.query.all()
+    if request.method == 'GET':
+        pass
+    return render_template("t-shirts.html", tshirts=tshirts)
 
 
 
@@ -44,9 +48,9 @@ def calcular_total():
     size = request.form['size']
     quantity = int(request.form['quantity'])
     from .logic.t_shirt import precios
-    price_per_unit = precios.get(size, 19.99)
+    price_per_unit = precios.get(size, 29500)
     for i in range(quantity):
-        sesion.addToCart(Tshirt(name='default', cost=precios.get(size, 19.99),size=size))
+        sesion.addToCart(Tshirt(name='default', cost=precios.get(size, 29500),size=size))
     return render_template('pagos.html', size=size, quantity=quantity, total=sesion.getShoppingCart().getTotal())
 
 
