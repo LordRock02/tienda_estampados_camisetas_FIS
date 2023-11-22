@@ -2,7 +2,6 @@ $(document).ready(function(){
     //get the selected categories
     $('.category-btn').click(function(){
         if($(this).find('input').attr('value')==''){
-            alert('hols')
             $(this).css({
                 'background-color': 'rgb(108, 92, 240)',
                 'color': 'white'
