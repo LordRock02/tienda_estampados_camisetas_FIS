@@ -52,14 +52,9 @@ def calcular_total():
         sesion.addToCart(Tshirt(name='default', cost=precios.get(size, 29500),size=size))
     return render_template('pagos.html', size=size, quantity=quantity, total=sesion.getShoppingCart().getTotal())
 
-
-
-
 @views.route('/pago')
 def pago():
     return render_template("pagos.html")
-
-
 
 
 @views.route('/upload-design', methods=['GET', 'POST'])
