@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, redirect, render_template, request, url_for, session
 from werkzeug.utils import secure_filename
 from .models import Print as PrintTable
 from .models import Tshirt as TshirtTable
@@ -36,11 +36,10 @@ def tshirts():
     return render_template("t-shirts.html", tshirts=tshirts)
 
 
-
-@views.route('/tshirts_view', methods=['GET', 'POST'])
+@views.route('/tshirts_view')
 def tshirts_view():
     from .logic.t_shirt import precios
-    return render_template('t-shirts_view.html', precios=precios)
+    return render_template("t-shirts_view.html", precios=precios)
 
 
 @views.route('/calcular_total', methods=['POST'])
