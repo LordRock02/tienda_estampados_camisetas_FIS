@@ -103,6 +103,21 @@ def uploadDesign():
         """return redirect(url_for('views.design_details'))"""
     return render_template("upload_print.html", categories=categories)
 
+@views.route('/get_tshirts', methods=['POST'])
+def get_tshirts():
+    tshirts = TshirtTable.query.all()
+    
+    products = []
+    for tshirt in tshirts:
+        products.append({
+            'id' : tshirt.tshirt_id,
+            'name' : tshirt.name,
+            'image' : tshirt.image,
+            'price' : tshirt.cost,
+            'size' : tshirt.size
+        })
+    return jsonify(products)
+
 @views.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
     if request.method=='POST':
@@ -112,3 +127,7 @@ def add_to_cart():
         print('agregada:' ,tshirt.name, tshirt.cost, tshirt.size)
         print('total', sesion.getShoppingCart().getTotal())
         return('', 204)
+    
+@views.route('/remove', methods=['POST'])
+def remove():
+    pass

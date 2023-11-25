@@ -1,4 +1,54 @@
 $(document).ready(function(){
+
+    let products = []
+    /*
+        get all the tshirts from the database
+    */
+    function getTshirts(){
+        fetch('/get_tshirts', {method:'POST'})
+        .then(response => response.json())
+        .then(data => {
+            products = data
+        })
+    }
+    getTshirts()
+    /*
+        add products to the cart
+    */
+    let shoppingList = {}
+    let listCards=[]
+    function addTocart(key){
+        if(shoppingList[key] == null){
+            shoppingList[key] = products[key]
+            shoppingList[key].quantity = 1;
+            console.log('se agregara al carrito el producto:',products[key])
+            console.log('se agrego', shoppingList[key].id)
+        }else{
+            shoppingList[key].quantity += 1;
+        }
+        console.log('cantidad del producto', shoppingList[key].quantity)
+        reloadCart()
+    }
+    function reloadCart(){
+        let count = 0
+        let totalPrice = 0
+        $.each(shoppingList, function(index, value){
+            console.log('lflkasaasdfjfsdaj;lsfadjkl;sdfajkl', index)
+            console.log(shoppingList[index].quantity, 'cantidadadfasdfjasdf')
+            totalPrice += value.quantity*value.price
+            count += value.quantity
+            if(value != null){
+               let newDiv = $('<li>')
+               newDiv.html('<div><img src="static/img/CamisasHome/'+ value.image+ '" class="shoppingCard img-fluid"/></div>'+
+               '<div>' + value.name + '</div>' +
+               '<div>' + value.price + '</div>' +
+               '<div>' + value.quantity + '</div>') 
+               $('.listCard').append(newDiv)
+            }
+        })
+        console.log('Valor total:',totalPrice, 'cantidad:', count)
+        $('.total').text(totalPrice)
+    }
     /*
         categories interaction
     */
@@ -39,6 +89,13 @@ $(document).ready(function(){
         alert('boton presionado')
     })
 
+    var width = $('.shoppingCard').clientWidth;
+    var height = $('.shoppingCard').clientHeight;
+    var ratio = width/height;
+    $('.shoppingCard').height(50);
+    $('.shoppingCard').width(40);
+    $('.shoppingCard').css('object-fit','contain');
+
     /*
         shopping cart interaction
     */
@@ -49,14 +106,31 @@ $(document).ready(function(){
     $('.closeShopping').click(function(){
         $('body').removeClass('active')
     })
+    
+    /*
+        add products to the shopping cart
+    */
 
     $('.product').click(function(){
+        /*$.each(products, function(index, product){
+            console.log('id:', product.id)
+            console.log('name:', product.name)
+            console.log('image:', product.image)
+            console.log('price:', product.price)
+            console.log('size:', product.size)
+        })*/
         $.ajax({
             type: 'POST',
             url: "/add_to_cart",
             data: {"id" : $(this).attr('value')}
         })
-        
+        console.log($(this).attr('value')) 
+        var ids = []
+        $.each(products, function(index, product){
+            ids.push(product.id)
+        })
+        console.log('indice: ',ids.indexOf(parseInt($(this).attr('value'))))
+        addTocart(ids.indexOf(parseInt($(this).attr('value'))))
     })
 
 });

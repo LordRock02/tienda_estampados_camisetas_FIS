@@ -111,3 +111,24 @@
 .active .container{
     transform: translateX(-200px);
 }
+
+.listCard li{
+    display: grid;
+    grid-template-columns: 100px repeat(3,1fr);
+    row-gap:  10px;
+    margin-bottom: 20px;
+}
+
+.listCard li div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listCArd li img{
+    width: 90%;
+}
+
+.listCard button{
+    
+}
