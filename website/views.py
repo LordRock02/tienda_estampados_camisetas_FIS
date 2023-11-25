@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, redirect, render_template, request, url_for, jsonify
 from werkzeug.utils import secure_filename
 from .models import Print as PrintTable
 from .models import Tshirt as TshirtTable
@@ -16,9 +16,10 @@ from website import UPLOAD_FOLDER
 views = Blueprint('views', __name__)
 
 
-@views.route('/')
+@views.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template("home.html")
+    tshirts = TshirtTable.query.all()
+    return render_template("home.html", tshirts=tshirts)
 
 @views.route('/prints', methods=['GET', 'POST'])
 def prints():
@@ -101,3 +102,13 @@ def uploadDesign():
         return redirect(url_for('views.home'))
         """return redirect(url_for('views.design_details'))"""
     return render_template("upload_print.html", categories=categories)
+
+@views.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
+    if request.method=='POST':
+        print(request.form['id'])
+        tshirt=TshirtTable.query.filter_by(tshirt_id=request.form['id']).first()
+        sesion.addToCart(Tshirt(name = tshirt.name , cost = tshirt.cost , size = tshirt.size))
+        print('agregada:' ,tshirt.name, tshirt.cost, tshirt.size)
+        print('total', sesion.getShoppingCart().getTotal())
+        return('', 204)

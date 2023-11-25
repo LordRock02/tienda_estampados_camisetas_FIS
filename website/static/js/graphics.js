@@ -1,5 +1,7 @@
 $(document).ready(function(){
-    //get the selected categories
+    /*
+        categories interaction
+    */
     $('.category-btn').click(function(){
         if($(this).find('input').attr('value')==''){
             alert('hols')
@@ -22,8 +24,10 @@ $(document).ready(function(){
     });
     $('#submitBtn').click(function(){
         
-    });
-    // reescale images
+    })
+    /*
+        reescale images
+    */
     var width = $('.card-img-top').clientWidth;
     var height = $('.card-img-top').clientHeight;
     var ratio = width/height;
@@ -33,6 +37,26 @@ $(document).ready(function(){
 
     $('#signInBtn').click(function(){
         alert('boton presionado')
+    })
+
+    /*
+        shopping cart interaction
+    */
+
+    $('#cartBtn').click(function(){
+        $('body').addClass('active')
+    })
+    $('.closeShopping').click(function(){
+        $('body').removeClass('active')
+    })
+
+    $('.product').click(function(){
+        $.ajax({
+            type: 'POST',
+            url: "/add_to_cart",
+            data: {"id" : $(this).attr('value')}
+        })
+        
     })
 
 });
