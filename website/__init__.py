@@ -1,9 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
+
 import subprocess
  
 db = SQLAlchemy()
+
+from .logic.store import * 
 
 #database atributes
 DB_NAME = "database"
@@ -37,7 +40,7 @@ def create_app():
     
     with app.app_context():
         db.create_all()
-
+        insertCategories()
 
     return app
 

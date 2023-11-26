@@ -1,6 +1,7 @@
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, redirect, render_template, request, url_for, jsonify
 from werkzeug.utils import secure_filename
 from .models import Print as PrintTable
+from .models import Tshirt as TshirtTable
 from .models import Artist
 from .models import db
 from .models import Category
@@ -15,9 +16,10 @@ from website import UPLOAD_FOLDER
 views = Blueprint('views', __name__)
 
 
-@views.route('/')
+@views.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template("home.html")
+    tshirts = TshirtTable.query.all()
+    return render_template("home.html", tshirts=tshirts)
 
 @views.route('/prints', methods=['GET', 'POST'])
 def prints():
@@ -29,7 +31,10 @@ def prints():
 
 @views.route('/tshirts', methods=['GET', 'POST'])
 def tshirts():
-    return render_template("t-shirts.html")
+    tshirts = TshirtTable.query.all()
+    if request.method == 'GET':
+        pass
+    return render_template("t-shirts.html", tshirts=tshirts)
 
 
 
@@ -39,15 +44,9 @@ def tshirts_view():
     return render_template('t-shirts_view.html', precios=precios)
 
 
-@views.route('/calcular_total', methods=['POST'])
+@views.route('/calcular_total', methods=['GET'])
 def calcular_total():
-    size = request.form['size']
-    quantity = int(request.form['quantity'])
-    from .logic.t_shirt import precios
-    price_per_unit = precios.get(size, 19.99)
-    for i in range(quantity):
-        sesion.addToCart(Tshirt(name='default', cost=precios.get(size, 19.99),size=size))
-    return render_template('pagos.html', size=size, quantity=quantity, total=sesion.getShoppingCart().getTotal())
+    return render_template('pagos.html', size='xd', quantity=len(sesion.getShoppingCart().getTShirts()), total=sesion.getShoppingCart().getTotal())
 
 
 
@@ -97,3 +96,55 @@ def uploadDesign():
         return redirect(url_for('views.home'))
         """return redirect(url_for('views.design_details'))"""
     return render_template("upload_print.html", categories=categories)
+
+@views.route('/get_tshirts', methods=['POST'])
+def get_tshirts():
+    tshirts = TshirtTable.query.all()
+    
+    products = []
+    for tshirt in tshirts:
+        products.append({
+            'id' : tshirt.tshirt_id,
+            'name' : tshirt.name,
+            'image' : tshirt.image,
+            'price' : tshirt.cost,
+            'size' : tshirt.size
+        })
+    return jsonify(products)
+
+@views.route('/load_shopping_cart', methods=['POST'])
+def load_shopping_cart():
+    shoppingList = sesion.getShoppingCart().getTShirts()
+    products = []
+    for product in shoppingList:
+        tshirt = {
+            'id' : product.getId(),
+            'name' : product.getName(),
+            'image' : product.getImage(),
+            'price' : product.getPrice(),
+            'size' : product.getSize(),
+            'quantity' : 0
+            }
+        if products.count(tshirt) == 0:
+            products.append(tshirt) 
+    for product in shoppingList:
+        for i in range(len(products)):
+            tshirt = products[i]
+            if tshirt['id'] == product.getId():
+                tshirt['quantity'] += 1
+            products[i] = tshirt
+    return jsonify(products)
+
+@views.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
+    if request.method=='POST':
+        print(request.form['id'])
+        tshirt=TshirtTable.query.filter_by(tshirt_id=request.form['id']).first()
+        sesion.addToCart(Tshirt(id = tshirt.tshirt_id, name = tshirt.name , price= tshirt.cost , size = tshirt.size, image = tshirt.image))
+        print('agregada:' ,tshirt.name, tshirt.cost, tshirt.size)
+        print('total', sesion.getShoppingCart().getTotal())
+        return('', 204)
+    
+@views.route('/remove', methods=['POST'])
+def remove():
+    pass
