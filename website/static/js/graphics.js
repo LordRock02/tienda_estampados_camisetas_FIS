@@ -32,6 +32,7 @@ $(document).ready(function(){
     function reloadCart(){
         let count = 0
         let totalPrice = 0
+        $('.listCard').empty()
         $.each(shoppingList, function(index, value){
             console.log('lflkasaasdfjfsdaj;lsfadjkl;sdfajkl', index)
             console.log(shoppingList[index].quantity, 'cantidadadfasdfjasdf')
@@ -40,9 +41,15 @@ $(document).ready(function(){
             if(value != null){
                let newDiv = $('<li>')
                newDiv.html('<div><img src="static/img/CamisasHome/'+ value.image+ '" class="shoppingCard img-fluid"/></div>'+
-               '<div>' + value.name + '</div>' +
-               '<div>' + value.price + '</div>' +
-               '<div>' + value.quantity + '</div>') 
+                '<div>' + value.name + '</div>' +
+                '<div>' + value.price + '</div>' +
+                '<div>' + value.quantity + '</div>' +
+                '<div>' + 
+                    '<button>-</button>' +
+                    '<div class="cout">' + value.quantity + '</div>' +
+                    '<button>+</button>' + 
+                '</div>' +
+                '<div style="margin-bottom: 24px;"></div>') 
                $('.listCard').append(newDiv)
             }
         })
@@ -101,10 +108,18 @@ $(document).ready(function(){
     */
 
     $('#cartBtn').click(function(){
+        reloadCart()
         $('body').addClass('active')
     })
-    $('.closeShopping').click(function(){
+    $('#closeShoppingCart').click(function(){
         $('body').removeClass('active')
+    })
+    $('#buyBtn').click(function(){
+        alert('se presiono checkout')
+        $.ajax({
+            type: 'GET',
+            url: "/calcular_total"
+        })
     })
     
     /*

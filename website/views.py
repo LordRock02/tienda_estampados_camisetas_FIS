@@ -44,15 +44,9 @@ def tshirts_view():
     return render_template('t-shirts_view.html', precios=precios)
 
 
-@views.route('/calcular_total', methods=['POST'])
+@views.route('/calcular_total', methods=['GET'])
 def calcular_total():
-    size = request.form['size']
-    quantity = int(request.form['quantity'])
-    from .logic.t_shirt import precios
-    price_per_unit = precios.get(size, 29500)
-    for i in range(quantity):
-        sesion.addToCart(Tshirt(name='default', cost=precios.get(size, 29500),size=size))
-    return render_template('pagos.html', size=size, quantity=quantity, total=sesion.getShoppingCart().getTotal())
+    return render_template('pagos.html', size='xd', quantity=len(sesion.getShoppingCart().getTShirts()), total=sesion.getShoppingCart().getTotal())
 
 
 

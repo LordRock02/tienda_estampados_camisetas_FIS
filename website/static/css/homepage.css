@@ -65,12 +65,17 @@
     background-color: rgb(108, 92, 240);
     color: white
 }
+#closeShoppingCart{
+    position: absolute;
+    top: 32px;
+    right: 30px;
+}
 .shoppingCart{
     position: fixed;
     top: 0;
     left: 100%;
     width: 500px;
-    background-color: #f7f8ff;
+    background-color: #b3b3b3;
     height: 100vh;
     transition: 0.5s;
 }
@@ -109,7 +114,7 @@
     left:  calc(100% - 500px);
 }
 .active .container{
-    transform: translateX(-200px);
+    /*transform: translateX(-200px);*/
 }
 
 .listCard li{
@@ -130,5 +135,11 @@
 }
 
 .listCard button{
-    
+    width: auto;
+    background-color: #fff5;
+    border: none;
+}
+
+.listCard .count{
+    margin: 0 10px;
 }

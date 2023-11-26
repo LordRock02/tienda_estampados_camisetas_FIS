@@ -66,11 +66,14 @@
     {% endblock %}
     </div>
     <div class="shoppingCart">
-      <h1>shopping cart</h1>
+      <div class="header">
+        <h1>shopping cart</h1>
+        <button type="button" class="btn-close" id="closeShoppingCart" aria-label="Close"></button>
+      </div>
       <ul class="listCard"></ul>
       <div class="checkOut">
         <div class="total">0</div>
-        <div class="closeShopping">Close</div> 
+        <div id="buyBtn">Checkout</div> 
       </div>
     </div>
     <footer class="bg-#e6e6e6 text-black mt-5">
