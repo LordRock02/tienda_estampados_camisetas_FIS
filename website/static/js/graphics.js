@@ -13,29 +13,40 @@ $(document).ready(function(){
     }
     getTshirts()
     /*
-        add products to the cart
+        get shoppingList from backend
     */
     let shoppingList = {}
-    let listCards=[]
+    loadShoppingList()
+    function loadShoppingList(){
+        shoppingList = {}
+        fetch('/load_shopping_cart', {method:'POST'})
+        .then(response => response.json())
+        .then(data => {
+            $.each(data, function(key, value){
+                shoppingList[key] = value
+            })
+        })
+        console.log('loadShoppingList:',shoppingList)
+    }
+    /*
+        add products to the cart
+    */
     function addTocart(key){
         if(shoppingList[key] == null){
             shoppingList[key] = products[key]
             shoppingList[key].quantity = 1;
-            console.log('se agregara al carrito el producto:',products[key])
             console.log('se agrego', shoppingList[key].id)
         }else{
             shoppingList[key].quantity += 1;
         }
-        console.log('cantidad del producto', shoppingList[key].quantity)
         reloadCart()
     }
     function reloadCart(){
+        console.log('reloadCart', shoppingList)
         let count = 0
         let totalPrice = 0
         $('.listCard').empty()
-        $.each(shoppingList, function(index, value){
-            console.log('lflkasaasdfjfsdaj;lsfadjkl;sdfajkl', index)
-            console.log(shoppingList[index].quantity, 'cantidadadfasdfjasdf')
+        $.each(shoppingList, function(key, value){
             totalPrice += value.quantity*value.price
             count += value.quantity
             if(value != null){
@@ -43,11 +54,10 @@ $(document).ready(function(){
                newDiv.html('<div><img src="static/img/CamisasHome/'+ value.image+ '" class="shoppingCard img-fluid"/></div>'+
                 '<div>' + value.name + '</div>' +
                 '<div>' + value.price + '</div>' +
-                '<div>' + value.quantity + '</div>' +
                 '<div>' + 
-                    '<button>-</button>' +
-                    '<div class="cout">' + value.quantity + '</div>' +
-                    '<button>+</button>' + 
+                '<button onclick="changeQuantity(${' + key + '}, ${' + (value.quantity -1) + '})">+</button>' +
+                    '<div class="ml-2 mr-2">' + value.quantity + '</div>' +
+                    '<button onclick="changeQuantity(${' + key + '}, ${' + (value.quantity +1) + '})">+</button>' + 
                 '</div>' +
                 '<div style="margin-bottom: 24px;"></div>') 
                $('.listCard').append(newDiv)
@@ -55,6 +65,15 @@ $(document).ready(function(){
         })
         console.log('Valor total:',totalPrice, 'cantidad:', count)
         $('.total').text(totalPrice)
+    }
+    function changeQuantity(key, quantity){
+        console.log('hello from changequantity')
+        if(quantity == 0){
+            delete shoppingList[key]
+        }else{
+            shoppingList[key].quantity = quantity;
+            shoppingList[key].price = quantity*products[key]
+        }
     }
     /*
         categories interaction
@@ -98,8 +117,7 @@ $(document).ready(function(){
     var width = $('.shoppingCard').clientWidth;
     var height = $('.shoppingCard').clientHeight;
     var ratio = width/height;
-    $('.shoppingCard').height(50);
-    $('.shoppingCard').width(40);
+
     $('.shoppingCard').css('object-fit','contain');
 
     /*
@@ -143,7 +161,6 @@ $(document).ready(function(){
         $.each(products, function(index, product){
             ids.push(product.id)
         })
-        console.log('indice: ',ids.indexOf(parseInt($(this).attr('value'))))
         addTocart(ids.indexOf(parseInt($(this).attr('value'))))
     })
 

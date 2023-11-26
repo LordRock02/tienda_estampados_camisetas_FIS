@@ -75,6 +75,9 @@
     top: 0;
     left: 100%;
     width: 500px;
+    opacity: 0.95;
+    border-top-left-radius: 5%;
+    border-bottom-left-radius: 5%;
     background-color: #b3b3b3;
     height: 100vh;
     transition: 0.5s;

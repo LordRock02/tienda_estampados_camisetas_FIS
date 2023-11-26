@@ -112,12 +112,35 @@ def get_tshirts():
         })
     return jsonify(products)
 
+@views.route('/load_shopping_cart', methods=['POST'])
+def load_shopping_cart():
+    shoppingList = sesion.getShoppingCart().getTShirts()
+    products = []
+    for product in shoppingList:
+        tshirt = {
+            'id' : product.getId(),
+            'name' : product.getName(),
+            'image' : product.getImage(),
+            'price' : product.getPrice(),
+            'size' : product.getSize(),
+            'quantity' : 0
+            }
+        if products.count(tshirt) == 0:
+            products.append(tshirt) 
+    for product in shoppingList:
+        for i in range(len(products)):
+            tshirt = products[i]
+            if tshirt['id'] == product.getId():
+                tshirt['quantity'] += 1
+            products[i] = tshirt
+    return jsonify(products)
+
 @views.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
     if request.method=='POST':
         print(request.form['id'])
         tshirt=TshirtTable.query.filter_by(tshirt_id=request.form['id']).first()
-        sesion.addToCart(Tshirt(name = tshirt.name , cost = tshirt.cost , size = tshirt.size))
+        sesion.addToCart(Tshirt(id = tshirt.tshirt_id, name = tshirt.name , price= tshirt.cost , size = tshirt.size, image = tshirt.image))
         print('agregada:' ,tshirt.name, tshirt.cost, tshirt.size)
         print('total', sesion.getShoppingCart().getTotal())
         return('', 204)

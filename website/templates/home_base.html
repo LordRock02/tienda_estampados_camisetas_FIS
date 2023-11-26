@@ -65,12 +65,14 @@
     {% block content %}
     {% endblock %}
     </div>
-    <div class="shoppingCart">
-      <div class="header">
-        <h1>shopping cart</h1>
-        <button type="button" class="btn-close" id="closeShoppingCart" aria-label="Close"></button>
+    <div class="shoppingCart overflow-scroll">
+      <div class="overflow-scroll">
+        <div class="header">
+          <h1>shopping cart</h1>
+          <button type="button" class="btn-close" id="closeShoppingCart" aria-label="Close"></button>
+        </div>
+        <ul class="listCard"></ul>
       </div>
-      <ul class="listCard"></ul>
       <div class="checkOut">
         <div class="total">0</div>
         <div id="buyBtn">Checkout</div> 
