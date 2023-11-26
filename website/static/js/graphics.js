@@ -55,9 +55,9 @@ $(document).ready(function(){
                 '<div>' + value.name + '</div>' +
                 '<div>' + value.price + '</div>' +
                 '<div>' + 
-                '<button onclick="changeQuantity(${' + key + '}, ${' + (value.quantity -1) + '})">+</button>' +
-                    '<div class="ml-2 mr-2">' + value.quantity + '</div>' +
-                    '<button onclick="changeQuantity(${' + key + '}, ${' + (value.quantity +1) + '})">+</button>' + 
+                    '<button class="btn" id="minusBtn" onclick="changeQuantity(${' + key + '}, ${' + (value.quantity -1) + '})">-</button>' +
+                    '<div class="mx-3">' + value.quantity + '</div>' +
+                    '<button class="btn" id="plusBtn" onclick="changeQuantity(${' + key + '}, ${' + (value.quantity +1) + '})">+</button>' + 
                 '</div>' +
                 '<div style="margin-bottom: 24px;"></div>') 
                $('.listCard').append(newDiv)
@@ -128,7 +128,7 @@ $(document).ready(function(){
         reloadCart()
         $('body').addClass('active')
     })
-    $('#closeShoppingCart').click(function(){
+    $('.closeShoppingCart').click(function(){
         $('body').removeClass('active')
     })
     $('#buyBtn').click(function(){

@@ -7,6 +7,11 @@
     --secondary-color:  #11acd4;
 }
 
+.card{
+    border-radius: 10%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
 .card-img-top1{
     width: 60%;
     align-self: center;
@@ -74,7 +79,7 @@
     position: fixed;
     top: 0;
     left: 100%;
-    width: 500px;
+    width: 600px;
     opacity: 0.95;
     border-top-left-radius: 5%;
     border-bottom-left-radius: 5%;
@@ -90,15 +95,59 @@
     display: flex;
     align-items: center;
 }
-.shoppingCart .checkOut{
+
+.bottomShoppingDiv{
     position: absolute;
     bottom: 0;
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
 }
-.shoppingCart .checkOut div{
-    background-color: var(--principal-color);
+
+.bottomShoppingDiv .summaryDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10%;
+}
+
+.bottomShoppingDiv .summaryDiv div{
+    font-size: large;
+}
+
+#totalTitle{
+    width: 30%;
+}
+
+#totalTitle h1{
+    justify-content: center;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+#total{
+    width: 70%;
+}
+
+#total h1{
+    justify-content: right;
+    font-weight: bold;
+    font-size: 30px;
+    margin-right: 10%;
+}
+
+.shoppingCart .bottomShoppingDiv .checkOut{
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    display: grid;
+    border-top: var(--principal-color);
+    grid-template-columns: repeat(2, 1fr);
+    padding-bottom: 5%;
+}
+
+.shoppingCart .bottomShoppingDiv .checkOut div{
     color: #fff;
     width: 100%;
     height: 70px;
@@ -108,13 +157,27 @@
     font-weight: bold;
     cursor: pointer;
 }
-.shoppingCart .checkOut div:nth-child(2){
-    background-color: var(--secondary-color);
+
+.shoppingCart .bottomShoppingDiv .checkOut div:nth-child(2){
     color: #fff;
 }
 
+#checkOutBtn{
+    background-color: var(--principal-color);
+    border-color: var(--principal-color);
+    color: white;
+    font-size: large;
+}
+
+#closeBtn{
+    background-color: transparent;
+    border-color: var(--principal-color);
+    color: var(--principal-color);
+    font-size: large;
+}
+
 .active .shoppingCart{
-    left:  calc(100% - 500px);
+    left:  calc(100% - 600px);
 }
 .active .container{
     /*transform: translateX(-200px);*/
@@ -145,4 +208,15 @@
 
 .listCard .count{
     margin: 0 10px;
+}
+
+#minusBtn{
+    border-color:#fff;
+}
+
+#plusBtn{
+    background-color: var(--principal-color);
+    border-color: var(--principal-color);
+    color: white;
+    font-size: large;
 }

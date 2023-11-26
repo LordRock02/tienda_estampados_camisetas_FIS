@@ -65,17 +65,23 @@
     {% block content %}
     {% endblock %}
     </div>
-    <div class="shoppingCart overflow-scroll">
-      <div class="overflow-scroll">
+    <div class="shoppingCart">
+      <div class="">
         <div class="header">
           <h1>shopping cart</h1>
-          <button type="button" class="btn-close" id="closeShoppingCart" aria-label="Close"></button>
+          <button type="button" class="btn-close closeShoppingCart" id="closeShoppingCart" aria-label="Close"></button>
         </div>
         <ul class="listCard"></ul>
       </div>
-      <div class="checkOut">
-        <div class="total">0</div>
-        <div id="buyBtn">Checkout</div> 
+      <div class="bottomShoppingDiv">
+        <div class="summaryDiv">
+          <div id="totalTitle"><h1>Total</h1></div>
+          <div id="total"><h1 class="total"></h1></div>
+        </div>
+        <div class="checkOut mb-5">
+          <div style="padding-left: 15%;"><button type="button" id="closeBtn" class="btn btn-secondary px-5 py-2 mr-15 closeShoppingCart" style="font-weight: bold;">keep buying</button></div>
+          <div id="buyBtn" style="padding-right: 15%;"><button type="submit" id="checkOutBtn" class="btn btn-primary px-5 py-2 ml-15" style="font-weight: bold;" href="/calcular_total">Checkout</button></div> 
+        </div>
       </div>
     </div>
     <footer class="bg-#e6e6e6 text-black mt-5">
