@@ -4,6 +4,7 @@
     --lg-font: 'kaisei Tokumin', serif;
     --sm-font: 'Poppins', sans-serif;
     --principal-color:  #6c5cf0;
+    --secondary-color:  #11acd4;
 }
 
 .card-img-top1{
@@ -63,4 +64,82 @@
 .category-btn-active{
     background-color: rgb(108, 92, 240);
     color: white
+}
+#closeShoppingCart{
+    position: absolute;
+    top: 32px;
+    right: 30px;
+}
+.shoppingCart{
+    position: fixed;
+    top: 0;
+    left: 100%;
+    width: 500px;
+    background-color: #b3b3b3;
+    height: 100vh;
+    transition: 0.5s;
+}
+.shoppingCart h1{
+    font-weight: 100;
+    margin: 0;
+    padding: 0 20px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+.shoppingCart .checkOut{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+.shoppingCart .checkOut div{
+    background-color: var(--principal-color);
+    color: #fff;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.shoppingCart .checkOut div:nth-child(2){
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.active .shoppingCart{
+    left:  calc(100% - 500px);
+}
+.active .container{
+    /*transform: translateX(-200px);*/
+}
+
+.listCard li{
+    display: grid;
+    grid-template-columns: 100px repeat(3,1fr);
+    row-gap:  10px;
+    margin-bottom: 20px;
+}
+
+.listCard li div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listCArd li img{
+    width: 90%;
+}
+
+.listCard button{
+    width: auto;
+    background-color: #fff5;
+    border: none;
+}
+
+.listCard .count{
+    margin: 0 10px;
 }

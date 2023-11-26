@@ -3,6 +3,7 @@ from .models import *
 from .logic.store import *
 from .logic.user import User as CurrentUser
 from werkzeug.security import generate_password_hash, check_password_hash
+
 #from passlib.hash import sha256_crypt
 
 auth = Blueprint('auth', __name__)
@@ -10,15 +11,13 @@ auth = Blueprint('auth', __name__)
 @auth.route('/sign-in', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        nickname=request.form.get('nickname')
-        password=request.form.get('password')
-        succes=login_usr(request.form.get('nickname'), password)
+        succes=login_usr(request.form.get('nickname'),  password=request.form.get('password'))
         if succes:
             flash('Logged in successfully!', category='success')
-            return render_template('home_base.html', isLoggedIn=True)
+            return render_template('home.html', isLoggedIn=True)
         else:
             flash('The password or the user doesn\'t match', category='error')
-    return render_template("sign_in.html", boolean=True)
+    return render_template("sign_in.html", isLoggedIn=True)
 
 @auth.route('/logout')
 def logout():
