@@ -1,3 +1,4 @@
+
 from flask import Blueprint, redirect, render_template, request, url_for, jsonify
 from werkzeug.utils import secure_filename
 from .models import Print as PrintTable
@@ -37,25 +38,24 @@ def tshirts():
     return render_template("t-shirts.html", tshirts=tshirts)
 
 
-
-@views.route('/tshirts_view', methods=['GET', 'POST'])
+@views.route('/tshirts_view')
 def tshirts_view():
     from .logic.t_shirt import precios
-    return render_template('t-shirts_view.html', precios=precios)
+    return render_template("t-shirts_view.html", precios=precios)
+
+@views.route('/customize')
+def customize():
+    from .logic.t_shirt import precios
+    return render_template("customize.html", precios=precios)
 
 
 @views.route('/calcular_total', methods=['GET'])
 def calcular_total():
     return render_template('pagos.html', size='xd', quantity=len(sesion.getShoppingCart().getTShirts()), total=sesion.getShoppingCart().getTotal())
 
-
-
-
 @views.route('/pago')
 def pago():
     return render_template("pagos.html")
-
-
 
 
 @views.route('/upload-design', methods=['GET', 'POST'])

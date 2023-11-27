@@ -15,22 +15,22 @@
 </style>
 <div class="container mt-5">
   <h1>T-Shirts</h1>
-    <div class="row">
-      {% for tshirt in tshirts %}
-      <div class="col-md-3" style="width: 18rem; margin-top: 3%;">
-        <div class="card">
-          <div style="display: flex; justify-content: center; align-items: center;">
-            <img src="static/img/CamisasHome/{{tshirt.image}}" class="card-img-top img-fluid" alt="{{tshirt.image}}">
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">{{ tshirt.name}}</h5>
-            <h4>${{ "{0:.1f}".format(tshirt.cost) }}</h4>
-            <a href="#" class="btn btn-primary">Ver detalles</a>
-          </div>
-        </div> 
+  <div class="row">
+    {% for tshirt in tshirts %}
+    <div class="col-lg-4 pt-4">
+      <div class="card" style="width: 18rem;">
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <img src="static/img/CamisasHome/{{tshirt.image}}" class="card-img-top img-fluid" alt="{{tshirt.name}}">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{tshirt.name}}</h5>
+          <h5 class="card-text" style="color: blueviolet; margin: 5%;">${{tshirt.cost}}</h5>
+          <a type="submit" name='{{tshirt.name}}' value="{{tshirt.tshirt_id}}" class="btn btn-primary product">Agregar al Carrito</a>
+        </div>
       </div>
-      {% endfor %}
     </div>
+    {% endfor %}
+   </div>
   </div>
 <script src="static/js/graphics.js"></script>
 {% endblock %}

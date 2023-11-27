@@ -1,0 +1,35 @@
+{% extends "home_base.html" %}
+{% block title%}T-Shirts_view{% endblock %} 
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card" style="align-items: center;">
+                <h2>Ejemplo Posición Estampa</h2>
+                <img src="{{url_for('static', filename='img/CamisasHome/1.png')}}" alt="Camiseta Estándar" class="card-img-top">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <form action="/calcular_total" method="post" class="card-body">
+                <h2 class="mb-4">Camiseta Estándar</h2>
+
+                <div class="form-group">
+                    <label for="size">Talla:</label>
+                    <select class="form-control" name="size">
+                        {% for key, value in precios.items() %}
+                            <option value="{{ key }}">{{ key }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Cantidad:</label>
+                    <input type="number" class="form-control" name="quantity" min="1" value="1">
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 3%;">Comprar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
