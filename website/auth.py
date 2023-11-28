@@ -19,9 +19,11 @@ def login():
             flash('The password or the user doesn\'t match', category='error')
     return render_template("sign_in.html", isLoggedIn=True)
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['POST'])
 def logout():
-    return "<p>Logout</p>"
+    sesion.logOut()
+    print('el usuario se salio aflksjdlaksdjf;laksdjf;laksjdflaksdj')
+    return('', 204)
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():

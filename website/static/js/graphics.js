@@ -1,4 +1,6 @@
 $(document).ready(function(){
+    getUser()
+    getView()
     loadShoppingList()
     /*
         categories interaction
@@ -46,7 +48,7 @@ $(document).ready(function(){
     $('.shoppingCard').css('object-fit','contain');
 
     /*
-        shopping cart interaction
+        btns interaction
     */
 
     $('#cartBtn').click(function(){
@@ -57,14 +59,14 @@ $(document).ready(function(){
         $('body').removeClass('active')
     })
     $('#buyBtn').click(function(){
-        $.ajax({
-            url: "/pago",
-            type: 'GET',
-            success: function(data){
-                console.log(data.url)
-                window.location.href = data.url
-            }
-        })
+        goToPage('/pago')
+
+    })
+    $('#goToUploadBtn').click(function(){
+        goToPage('/redirect_upload')
+    })
+    $('.logOutBtn').click(function(){
+        alert('Log Out')
     })
     /*
         add products to the shopping cart
@@ -195,6 +197,24 @@ function removeTshirt(id){
     })
 }
 
+function logOut(){
+    alert('Log Out')
+    $(document).ready(function(){
+        $.ajax({
+            type: 'POST',
+            url: "/logout"
+        })
+        $.ajax({
+            url: "/redirect_home",
+            type: 'GET',
+            success: function(data){
+                console.log(data.url)
+                window.location.href = data.url
+            }
+        })
+    }) 
+}
+
 function redirectSignUp(){
     console.log('signUp')
     $.ajax({
@@ -204,5 +224,77 @@ function redirectSignUp(){
             console.log(data.url)
             window.location.href = data.url
         }
+    })
+}
+
+function goToPage(page){
+    $.ajax({
+        url: "/isLoggedIn",
+        type: 'GET',
+        success: function(data){
+            if(data.loggedIn){
+                $.ajax({
+                    url: page,
+                    type: 'GET',
+                    success: function(data){
+                        console.log(data.url)
+                        window.location.href = data.url
+                    }
+                })
+            }else{
+                $.ajax({
+                    url: "/redirect_login",
+                    type: 'GET',
+                    success: function(data){
+                        console.log(data.url)
+                        window.location.href = data.url
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            // Código que se ejecuta en caso de error de la solicitud AJAX
+            console.error('Error en la solicitud AJAX:', error);
+        },
+        complete: function() {
+            // Código que se ejecuta después de que la solicitud AJAX esté completa
+            // Esto se ejecutará incluso en caso de error
+        }
+    })
+}
+function getView(){
+    $.ajax({
+        url: "/isLoggedIn",
+        type: 'GET',
+        success: function(data){
+            $(document).ready(function(){
+                $('#userOptions')
+                if(data.loggedIn){
+                    console.log('esta loggeado')
+                    $('#userOptions').append($('<li>').html('<a class="dropdown-item logOutBtn" id="logOutBtn" onclick="logOut()">log out</a>'))
+                }else{
+                    console.log('no esta loggeado')
+                    $('#userOptions').append($('<li>').html('<a href="/sign-in" class="dropdown-item">Sign-in</a>'))
+                    $('#userOptions').append($('<li>').html('<a href="/sign-up" class="dropdown-item">Sign-up</a>'))
+                }
+            })
+        },
+        error: function(error) {
+            // Código que se ejecuta en caso de error de la solicitud AJAX
+            console.error('Error en la solicitud AJAX:', error);
+        },
+        complete: function() {
+            // Código que se ejecuta después de que la solicitud AJAX esté completa
+            // Esto se ejecutará incluso en caso de error
+        }
+    })
+}
+function getUser(){
+    $(document).ready(function(){
+        fetch('/getUser', {method:'POST'})
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
     })
 }

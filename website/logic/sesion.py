@@ -23,8 +23,8 @@ class Sesion():
     def addToCart(self, tShirt:Tshirt):
         self.__shoppingCart.getTShirts().append(tShirt)
     
-    def delUser(self):
-        del self.__user
+    def logOut(self):
+        self.user = None
 
-    def isActive(self):
+    def isLoggedIn(self):
         return self.__user != None
