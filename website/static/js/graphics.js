@@ -1,80 +1,4 @@
 $(document).ready(function(){
-
-    let products = []
-    /*
-        get all the tshirts from the database
-    */
-    function getTshirts(){
-        fetch('/get_tshirts', {method:'POST'})
-        .then(response => response.json())
-        .then(data => {
-            products = data
-        })
-    }
-    getTshirts()
-    /*
-        get shoppingList from backend
-    */
-    let shoppingList = {}
-    loadShoppingList()
-    function loadShoppingList(){
-        shoppingList = {}
-        fetch('/load_shopping_cart', {method:'POST'})
-        .then(response => response.json())
-        .then(data => {
-            $.each(data, function(key, value){
-                shoppingList[key] = value
-            })
-        })
-        console.log('loadShoppingList:',shoppingList)
-    }
-    /*
-        add products to the cart
-    */
-    function addTocart(key){
-        if(shoppingList[key] == null){
-            shoppingList[key] = products[key]
-            shoppingList[key].quantity = 1;
-            console.log('se agrego', shoppingList[key].id)
-        }else{
-            shoppingList[key].quantity += 1;
-        }
-        reloadCart()
-    }
-    function reloadCart(){
-        console.log('reloadCart', shoppingList)
-        let count = 0
-        let totalPrice = 0
-        $('.listCard').empty()
-        $.each(shoppingList, function(key, value){
-            totalPrice += value.quantity*value.price
-            count += value.quantity
-            if(value != null){
-               let newDiv = $('<li>')
-               newDiv.html('<div><img src="static/img/CamisasHome/'+ value.image+ '" class="shoppingCard img-fluid"/></div>'+
-                '<div>' + value.name + '</div>' +
-                '<div>' + value.price + '</div>' +
-                '<div>' + 
-                    '<button class="btn" id="minusBtn" onclick="changeQuantity(${' + key + '}, ${' + (value.quantity -1) + '})">-</button>' +
-                    '<div class="mx-3">' + value.quantity + '</div>' +
-                    '<button class="btn" id="plusBtn" onclick="changeQuantity(${' + key + '}, ${' + (value.quantity +1) + '})">+</button>' + 
-                '</div>' +
-                '<div style="margin-bottom: 24px;"></div>') 
-               $('.listCard').append(newDiv)
-            }
-        })
-        console.log('Valor total:',totalPrice, 'cantidad:', count)
-        $('.total').text(totalPrice)
-    }
-    function changeQuantity(key, quantity){
-        console.log('hello from changequantity')
-        if(quantity == 0){
-            delete shoppingList[key]
-        }else{
-            shoppingList[key].quantity = quantity;
-            shoppingList[key].price = quantity*products[key]
-        }
-    }
     /*
         categories interaction
     */
@@ -143,25 +67,84 @@ $(document).ready(function(){
         add products to the shopping cart
     */
 
-    $('.product').click(function(){
-        /*$.each(products, function(index, product){
-            console.log('id:', product.id)
-            console.log('name:', product.name)
-            console.log('image:', product.image)
-            console.log('price:', product.price)
-            console.log('size:', product.size)
-        })*/
+    $('.addProduct').click(function(){
+        addTshirt($(this).attr('value'))
+    })
+});
+function reloadCart(){
+    $(document).ready(function(){
+        var shoppingList = {}
+        fetch('/load_shopping_cart', {method:'POST'})
+        .then(response => response.json())
+        .then(data => {
+            $.each(data, function(key, value){
+                shoppingList[key] = value
+            })
+            let count = 0
+            let totalPrice = 0
+            $('.listCard').empty()
+            $.each(shoppingList, function(key, value){
+                console.log('hola')
+                totalPrice += value.quantity*value.price
+                count += value.quantity
+                if(value != null){
+                   let newDiv = $('<li>')
+                   newDiv.html('<div><img src="static/img/CamisasHome/'+ value.image+ '" class="shoppingCard img-fluid"/></div>'+
+                    '<div>' + value.name + '</div>' +
+                    '<div>' + value.price + '</div>' +
+                    '<div>' + 
+                        '<button class="btn" id="minusBtn" onclick="removeTshirt(' + value.id + ')">-</button>' +
+                        '<div class="mx-3">' + value.quantity + '</div>' +
+                        '<button class="btn" id="plusBtn" onclick="addTshirt(' + value.id + ')">+</button>' + 
+                    '</div>' +
+                    '<div style="margin-bottom: 24px;"></div>') 
+                   $('.listCard').append(newDiv)
+                }
+            })
+            console.log('Valor total:',totalPrice, 'cantidad:', count)
+            $('.total').text(totalPrice)
+        })
+    })
+}
+
+function addTshirt(id){
+    $(document).ready(function(){
         $.ajax({
             type: 'POST',
-            url: "/add_to_cart",
-            data: {"id" : $(this).attr('value')}
+            url: "/add_to_cart", 
+            data: {'id' : id},
+            success: function(data){
+                reloadCart()
+            },
+            error: function(error) {
+                // Código que se ejecuta en caso de error de la solicitud AJAX
+                console.error('Error en la solicitud AJAX:', error);
+            },
+            complete: function() {
+                // Código que se ejecuta después de que la solicitud AJAX esté completa
+                // Esto se ejecutará incluso en caso de error
+            }
         })
-        console.log($(this).attr('value')) 
-        var ids = []
-        $.each(products, function(index, product){
-            ids.push(product.id)
-        })
-        addTocart(ids.indexOf(parseInt($(this).attr('value'))))
     })
+}
 
-});
+function removeTshirt(id){
+    $(document).ready(function(){
+        $.ajax({
+            type: 'POST',
+            url: "/remove", 
+            data: {'id' : id},
+            success: function(data){
+                reloadCart()
+            },
+            error: function(error) {
+                // Código que se ejecuta en caso de error de la solicitud AJAX
+                console.error('Error en la solicitud AJAX:', error);
+            },
+            complete: function() {
+                // Código que se ejecuta después de que la solicitud AJAX esté completa
+                // Esto se ejecutará incluso en caso de error
+            }
+        })
+    })
+}

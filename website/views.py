@@ -116,35 +116,34 @@ def get_tshirts():
 def load_shopping_cart():
     shoppingList = sesion.getShoppingCart().getTShirts()
     products = []
+    ids = []
     for product in shoppingList:
         tshirt = {
             'id' : product.getId(),
             'name' : product.getName(),
             'image' : product.getImage(),
             'price' : product.getPrice(),
-            'size' : product.getSize(),
-            'quantity' : 0
-            }
-        if products.count(tshirt) == 0:
-            products.append(tshirt) 
-    for product in shoppingList:
-        for i in range(len(products)):
-            tshirt = products[i]
-            if tshirt['id'] == product.getId():
-                tshirt['quantity'] += 1
-            products[i] = tshirt
+            'size' : product.getSize()
+        }
+        ids.append(product.getId())
+        if not tshirt in products:
+            products.append(tshirt)
+    for product in products:
+        product['quantity'] = ids.count(product['id'])
+            
     return jsonify(products)
 
 @views.route('/add_to_cart', methods=['POST'])
 def add_to_cart():
     if request.method=='POST':
-        print(request.form['id'])
         tshirt=TshirtTable.query.filter_by(tshirt_id=request.form['id']).first()
         sesion.addToCart(Tshirt(id = tshirt.tshirt_id, name = tshirt.name , price= tshirt.cost , size = tshirt.size, image = tshirt.image))
-        print('agregada:' ,tshirt.name, tshirt.cost, tshirt.size)
-        print('total', sesion.getShoppingCart().getTotal())
         return('', 204)
     
 @views.route('/remove', methods=['POST'])
 def remove():
-    pass
+    for i in range(len(sesion.getShoppingCart().getTShirts())):
+        print(sesion.getShoppingCart().getTShirts()[i].getId(), request.form['id'], sesion.getShoppingCart().getTShirts()[i].getId() == request.form['id']) 
+        if str(sesion.getShoppingCart().getTShirts()[i].getId()) == request.form['id']:
+            return('tshirt was deleted', 204)
+    return ('', 204)
