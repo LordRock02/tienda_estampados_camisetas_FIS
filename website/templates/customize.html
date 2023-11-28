@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <form action="/calcular_total" method="post" class="card-body">
+            <form action="/calcular_total" method="get" class="card-body">
                 <h2 class="mb-4" style="text-align: center;">Camiseta Estándar</h2>
                 <div class="form-group">
                     <label for="size">Talla:</label>
@@ -39,7 +39,7 @@
                     <div class="row" style="margin-right: -5px; margin-left: -5px; width: fit-content;"> <!-- Ajustamos los márgenes -->
                         {% for print in prints %}
                         <div class="col-md-4 columna-botones" style="margin-bottom: 5px;" style="width: 50px;"> <!-- Ajustamos el margen inferior -->
-                            <button class="btn btn-light abrir-modal" data-toggle="modal" data-target="#imagenModal{{ loop.index }}"">
+                            <button class="btn btn-light abrir-modal" data-toggle="modal" data-target="#imagenModal{{ loop.index }}">
                                 <img src="{{ url_for('static', filename='img/uploadedPrints/' + print.image) }}" alt="{{ print.image }}" class="imagen-btn">
                             </button>
                         </div>
@@ -60,7 +60,7 @@
                 </div>
                 {% endfor %}
                 <div class="text-center"> <!-- Centro el botón de comprar -->
-                    <button type="submit" class="btn btn-primary" style="margin-top: 3%;">Comprar</button>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 3%;" id="buyBtn">Comprar</button>
                 </div>
             </form>
             

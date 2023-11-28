@@ -49,7 +49,7 @@ def customize():
     prints = PrintTable.query.all()
     artists = Artist.query.all()
     if request.method == 'GET':
-        pass
+        redirect (url_for('views.calcular_total'))
     return render_template("customize.html", prints=prints, artists=artists, precios=precios)
 
 
