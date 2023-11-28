@@ -43,7 +43,7 @@
         <div>
           <div class="dropdown">
             <button type="button" class="btn position-relative"><i class="fa fa-search"></i><span class="position-absolute top-0 start-100 translate-middle badge bg-primary"></span></button>
-            <button type="button" class="btn position-relative" id="cartBtn"><i class="fa fa-shopping-cart"></i><span class="position-absolute top-0 start-100 translate-middle badge bg-primary">{% block cart %}5{% endblock %}</span></button>
+            <button type="button" class="btn position-relative" id="cartBtn"><i class="fa fa-shopping-cart"></i><span class="position-absolute top-0 start-100 translate-middle badge bg-primary" id="quantityCircle">{% block cart %}{% endblock %}</span></button>
             <button type="button" class="btn position-relative" data-bs-toggle="dropdown">
               <i class="fa fa-user"></i>
             <span class="position-absolute top-0 start-100 translate-middle badge bg-secondary"></span>

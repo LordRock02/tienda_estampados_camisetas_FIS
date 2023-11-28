@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, render_template, request, flash, url_for
+from flask import Blueprint, redirect, render_template, request, flash, url_for, jsonify
 from .models import *
 from .logic.store import *
 from .logic.user import User as CurrentUser
@@ -33,3 +33,7 @@ def sign_up():
             flash('Account created', category='succes')
             return redirect(url_for('views.home'))
     return render_template("sign_up.html")
+
+@auth.route('/redirect_sign-up')
+def redirect_sign_up():
+    return jsonify({'url' : '/sign-up'})

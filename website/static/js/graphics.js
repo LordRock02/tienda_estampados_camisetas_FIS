@@ -56,13 +56,15 @@ $(document).ready(function(){
         $('body').removeClass('active')
     })
     $('#buyBtn').click(function(){
-        alert('se presiono checkout')
         $.ajax({
+            url: "/pago",
             type: 'GET',
-            url: "/calcular_total"
+            success: function(data){
+                console.log(data.url)
+                window.location.href = data.url
+            }
         })
     })
-    
     /*
         add products to the shopping cart
     */
@@ -103,6 +105,9 @@ function reloadCart(){
             })
             console.log('Valor total:',totalPrice, 'cantidad:', count)
             $('.total').text(totalPrice)
+            if(Object.keys(shoppingList).length>0){
+                $('#quantityCircle').text(Object.keys(shoppingList).length)
+            }
         })
     })
 }
@@ -146,5 +151,17 @@ function removeTshirt(id){
                 // Esto se ejecutará incluso en caso de error
             }
         })
+    })
+}
+
+function redirectSignUp(){
+    console.log('signUp')
+    $.ajax({
+        url: "/redirect_sign-up",
+        type: 'GET',
+        success: function(data){
+            console.log(data.url)
+            window.location.href = data.url
+        }
     })
 }

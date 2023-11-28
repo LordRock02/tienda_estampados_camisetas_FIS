@@ -59,7 +59,7 @@ def calcular_total():
 
 @views.route('/pago')
 def pago():
-    return render_template("pagos.html")
+    return jsonify({'url' : 'calcular_total'})
 
 
 @views.route('/upload-design', methods=['GET', 'POST'])
