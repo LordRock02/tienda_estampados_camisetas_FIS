@@ -2,7 +2,6 @@
 {% block title%}Customize{% endblock %} 
 {% block content %}
 <style>
-    /* Ajusta el tamaño de las imágenes según sea necesario */
     .imagen-btn {
         width: 50px;
         height: 50px;
@@ -12,7 +11,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <div class="card" style="align-items: center;">
+            <div class="card" style="align-items: center; ">
                 <h2>Ejemplo Posición Estampa</h2>
                 <img src="{{url_for('static', filename='img/CamisasHome/customize.png')}}" alt="Camiseta Estándar" class="card-img-top">
             </div>
@@ -36,10 +35,10 @@
             
                 <h2 class="text-center mt-4">Estampas</h2>
                 <div class="container mt-4">
-                    <div class="row" style="margin-right: -5px; margin-left: -5px; width: fit-content;"> <!-- Ajustamos los márgenes -->
+                    <div class="row" style="margin-right: -5px; margin-left: -5px; width: fit-content;"> 
                         {% for print in prints %}
                         <div class="col-md-4 columna-botones" style="margin-bottom: 5px;" style="width: 50px;"> <!-- Ajustamos el margen inferior -->
-                            <button class="btn btn-light abrir-modal" data-toggle="modal" data-target="#imagenModal{{ loop.index }}">
+                            <button class="btn btn-light abrir-modal" data-toggle="modal" data-target="#imagenModal{{ loop.index }}"">
                                 <img src="{{ url_for('static', filename='img/uploadedPrints/' + print.image) }}" alt="{{ print.image }}" class="imagen-btn">
                             </button>
                         </div>
@@ -47,7 +46,6 @@
                     </div>
                 </div>
             
-                <!-- Modales para mostrar las imágenes en tamaño completo -->
                 {% for print in prints %}
                 <div class="modal fade" id="imagenModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="imagenModalLabel{{ loop.index }}" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
@@ -60,16 +58,13 @@
                 </div>
                 {% endfor %}
                 <div class="text-center"> <!-- Centro el botón de comprar -->
-                    <button type="submit" class="btn btn-primary" style="margin-top: 3%;" id="buyBtn">Comprar</button>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 3%;">Comprar</button>
                 </div>
             </form>
-            
-                       
         </div>
     </div>
 </div>
 <script>
-    // Configura el evento clic para abrir el modal con la imagen seleccionada
     document.querySelectorAll('.abrir-modal').forEach(function (btn) {
         btn.addEventListener('click', function (event) {
             // Evita la acción predeterminada del botón (que envíe el formulario)
