@@ -145,5 +145,6 @@ def remove():
     for i in range(len(sesion.getShoppingCart().getTShirts())):
         print(sesion.getShoppingCart().getTShirts()[i].getId(), request.form['id'], sesion.getShoppingCart().getTShirts()[i].getId() == request.form['id']) 
         if str(sesion.getShoppingCart().getTShirts()[i].getId()) == request.form['id']:
+            sesion.getShoppingCart().getTShirts().pop(i)
             return('tshirt was deleted', 204)
     return ('', 204)
