@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    loadShoppingList()
     /*
         categories interaction
     */
@@ -110,8 +111,48 @@ function reloadCart(){
             }
         })
     })
+    loadShoppingList()
 }
 
+function loadShoppingList(){
+    console.log('hello from loadShoppingList')
+    $(document).ready(function(){
+        var shoppingList = {}
+        fetch('/load_shopping_cart', {method:'POST'})
+        .then(response => response.json())
+        .then(data => {
+            $.each(data, function(key, value){
+                shoppingList[key] = value
+            })
+            let count = 0
+            let totalPrice = 0
+            $('.listCardPago').empty()
+            $.each(shoppingList, function(key, value){
+                console.log('hola')
+                totalPrice += value.quantity*value.price
+                count += value.quantity
+                if(value != null){
+                   let newDiv = $('<li>')
+                   newDiv.html('<div class="d-flex justify-content-between align-items-center mb-2">'+
+                        '<div class="d-flex" style="display: inline-block;">' +
+                            '<div>' +
+                            '<img src="static/img/CamisasHome/' + value.image + '" alt="Producto 1" class="mr-2" style="width: 10%;">' +
+                            '<span class="position-relative top-50 translate-middle badge bg-primary" id="quantityCircle">' + value.quantity + '</span>' +
+                            '</div>' + 
+                            '<div style="text-align:center;">' + value.name + '</div>' + 
+                        '</div>' +
+                            '<div>$' + value.price + '<div>' +
+                        '<div>' +
+                        '</div>' +
+                        '</div>') 
+                   $('.listCardPago').append(newDiv)
+                }
+            })
+            console.log('Valor total:',totalPrice, 'cantidad:', count)
+            $('#totalSpan').text('$'+totalPrice)
+        })
+    })
+}
 function addTshirt(id){
     $(document).ready(function(){
         $.ajax({

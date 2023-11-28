@@ -37,27 +37,20 @@
             <!-- Resumen del Pedido -->
             <div class="card bg-light mb-3">
               <div class="card-header">Resumen del Pedido</div>
-              <div class="card-body">
-                <!-- Producto 1 -->
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <div class="d-flex">
-                    <img src="static/img/CamisasHome/1.png" alt="Producto 1" class="mr-2" style="width: 10%;">
-                    <span>Producto 1</span>
-                  </div>
-                  <span>${{"{0:.1f}".format(total)}}</span>
-                </div>
+              <div class="card-body" id="pagosContainer">
+                <!-- Productos -->
+                <div class="listCardPago" style="list-style-type: none;"></div>
                 <!-- Envío -->
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <div class="d-flex">
-                    <img src="https://via.placeholder.com/50" alt="Envío" class="mr-2">
-                    <span>Envío</span>
+                    <img src="static/img/truck-fast-solid.svg" alt="Envío" class="mr-2" style="width: 75px; height: auto;">
                   </div>
-                  <span>$Ni idea rey</span>
+                  <span>$ 0</span>
                 </div>
                 <!-- Total -->
                 <div class="d-flex justify-content-between align-items-center">
                   <strong>Total:</strong>
-                  <span>${{"{0:.1f}".format(total)}}</span>
+                  <span id="totalSpan"></span>
                 </div>
               </div>
             </div>

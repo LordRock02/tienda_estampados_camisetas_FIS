@@ -47,15 +47,16 @@ def tshirts_view():
 def customize():
     from .logic.t_shirt import precios
     prints = PrintTable.query.all()
-    artists = Artist.query.all()
-    if request.method == 'GET':
-        redirect (url_for('views.calcular_total'))
+    artists = Artist.query.all()    
+    if request.method == 'POST':
+        redirect(url_for('views.calcular_total'))
     return render_template("customize.html", prints=prints, artists=artists, precios=precios)
 
 
 @views.route('/calcular_total', methods=['GET'])
 def calcular_total():
-    return render_template('pagos.html', size='xd', quantity=len(sesion.getShoppingCart().getTShirts()), total=sesion.getShoppingCart().getTotal())
+
+    return render_template('pagos.html')
 
 @views.route('/pago')
 def pago():
