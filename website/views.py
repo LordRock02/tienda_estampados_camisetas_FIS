@@ -46,7 +46,11 @@ def tshirts_view():
 @views.route('/customize')
 def customize():
     from .logic.t_shirt import precios
-    return render_template("customize.html", precios=precios)
+    prints = PrintTable.query.all()
+    artists = Artist.query.all()
+    if request.method == 'GET':
+        pass
+    return render_template("customize.html", prints=prints, artists=artists, precios=precios)
 
 
 @views.route('/calcular_total', methods=['GET'])
