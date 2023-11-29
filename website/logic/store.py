@@ -11,6 +11,7 @@ from .user import User
 from .t_shirt import Tshirt
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Blueprint, redirect, render_template, request, url_for, jsonify
+from sqlalchemy import update, select
 
 
 sesion = Sesion()
@@ -302,6 +303,11 @@ def redirect_tshirt_view():
     id = request.args.get('id')
     return jsonify ({'url' : url_for('views.tshirts_view', id = id)})
 
+@store.route('/redirect_tshirt_view_admin', methods=['GET', 'POST'])
+def redirect_tshirt_view_admin():
+    id = request.args.get('id')
+    return jsonify ({'url' : url_for('views.tshirts_view_admin', id = id)})
+
 @store.route('/get_stock_available/<id>/<size>/<quantity>', methods = ['GET','POST'])
 def get_stock_available(id, size, quantity):
     stock = Warehouse.query.filter_by(tshirt_id = id, size_id = size).first()
@@ -310,6 +316,20 @@ def get_stock_available(id, size, quantity):
         if str(tshirt.getId()) == id and str(tshirt.getSize()) == size:
             counter += 1
     return jsonify ({'available' : counter <= int(stock.stock)})
+
+@store.route('/add_to_stock', methods=['GET', 'POST'])
+def add_to_stock():
+    id = request.form['id']
+    size = request.form['size']
+    quantity = int(request.form['quantity'])
+    print(id, size, quantity)
+    session = db.session
+    warehouse = session.query(Warehouse).filter(Warehouse.tshirt_id == id and Warehouse.size_id == size).first()
+    warehouse.stock = warehouse.stock + quantity
+    session.commit()
+
+    return ('', 204)
+    
 
 
         

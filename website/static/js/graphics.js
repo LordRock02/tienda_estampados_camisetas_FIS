@@ -88,6 +88,14 @@ $(document).ready(function(){
     $('#addToCart').click(function(){
         addToCart($(this).attr('value'),$('#sizeTshirt option:selected').val(),$('#quantityTshirt').val())
     })
+    $('#stockBtn').click(function(){
+        redirectTshirtViewAdmin($(this).attr('value'))
+    })
+    $('#addToStock').click(function(){
+        alert('stock')
+        addToStock($(this).attr('value'),$('#sizeTshirt option:selected').val(),$('#quantityTshirt').val())
+
+    })
     /*$("option[value='{{ size.id }}']").on("change", function(){
         // llamar a la función addToCart con los argumentos correspondientes
         alert('hola')
@@ -276,13 +284,7 @@ function getView(){
                     .then(data => {
                         console.log(data)
                     })
-                    $(document).ready(function(){
-                        fetch('/getUser', {method:'POST'})
-                        .then(response => response.json())
-                        .then(data => {
-                            //console.log(data['role'])
-                        })
-                    })
+
 
                 }else{
                     console.log('no esta loggeado')
@@ -306,7 +308,12 @@ function getUser(){
         fetch('/getUser', {method:'POST'})
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            console.log('usuario',data.user.role)
+            if (data.user.role == 'admin'){
+                var li = $('<li class="nav-link">')
+                li.html('<a class="nav-link" id="goToManage" href="/tshirts_admin"><b>Manage Tshirts</b></a>')
+                $('#navMenu').append(li)
+            }
         })
     })
 }
@@ -323,6 +330,12 @@ function addPrintToCart(id){
 function redirectTshirtView(id){
     console.log('hola desde redirectTshirtView')
     $.get("/redirect_tshirt_view", {id : parseInt(id)}, function(data){
+        console.log(data.url)
+        window.location.href = data.url
+    })
+}
+function redirectTshirtViewAdmin(id){
+    $.get("/redirect_tshirt_view_admin", {id : parseInt(id)}, function(data){
         console.log(data.url)
         window.location.href = data.url
     })
@@ -357,5 +370,26 @@ function addToCart(id, size, quantity){
             }
         })
 
+    })
+}
+function addToStock(id, size, quantity){
+    console.log('id', id, 'size', size, 'quantity', quantity)
+    $(document).ready(function(){
+        $.ajax({
+            type: 'POST',
+            url: "/add_to_stock", 
+            data: {'id' : id, 'size' : size, 'quantity' : quantity},
+            success: function(data){
+                reloadCart()
+            },
+            error: function(error) {
+
+                console.error('Error en la solicitud AJAX:', error);
+            },
+            complete: function() {
+                // Código que se ejecuta después de que la solicitud AJAX esté completa
+                // Esto se ejecutará incluso en caso de error
+            }
+        })
     })
 }

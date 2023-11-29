@@ -36,7 +36,14 @@ def tshirts():
     tshirts = TshirtTable.query.all()
     if request.method == 'GET':
         pass
-    return render_template("t-shirts.html")
+    return render_template("t-shirts.html", tshirts=tshirts)
+
+@views.route('/tshirts_admin', methods=['GET', 'POST'])
+def tshirts_admin():
+    tshirts = TshirtTable.query.all()
+    if request.method == 'GET':
+        pass
+    return render_template("t-shirts_admin.html", tshirts=tshirts)
 
 
 @views.route('/tshirts_view/<id>')
@@ -48,6 +55,16 @@ def tshirts_view(id):
         sizes.append({'size':getSize(item.size_id), 'id' : item.size_id})
     print('tallas', sizes)
     return render_template("t-shirts_view.html", tshirt=tshirt, sizes=sizes)
+
+@views.route('/tshirts_view_admin/<id>')
+def tshirts_view_admin(id):
+    tshirt = TshirtTable.query.filter_by(tshirt_id=id).first()
+    list = Warehouse.query.filter_by(tshirt_id=id)
+    sizes = []
+    for item in list:
+        sizes.append({'size':getSize(item.size_id), 'id' : item.size_id})
+    print('tallas', sizes)
+    return render_template("t-shirts_view_admin.html", tshirt=tshirt, sizes=sizes)
 
 @views.route('/customize')
 def customize():
