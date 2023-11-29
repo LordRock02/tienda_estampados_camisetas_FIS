@@ -16,3 +16,9 @@ class ShoppingCart:
         for tShirt in self.__tShirts:
             cost+=tShirt.getTotalCost()
         return cost
+    def getSubTotal(self, id):
+        cost = 0
+        for tShirt in self.__tShirts:
+            if str(tShirt.getId()) == str(id):
+                cost+=tShirt.getTotalCost()
+        return cost

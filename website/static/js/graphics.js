@@ -276,6 +276,13 @@ function getView(){
                     .then(data => {
                         console.log(data)
                     })
+                    $(document).ready(function(){
+                        fetch('/getUser', {method:'POST'})
+                        .then(response => response.json())
+                        .then(data => {
+                            //console.log(data['role'])
+                        })
+                    })
 
                 }else{
                     console.log('no esta loggeado')
@@ -324,20 +331,31 @@ function addToCart(id, size, quantity){
     console.log('id', id, 'size', size, 'quantity', quantity)
     $(document).ready(function(){
         $.ajax({
-            type: 'POST',
-            url: "/add_to_cart", 
-            data: {'id' : id, 'size' : size, 'quantity' : quantity},
+            url: '/get_stock_available/' + id + '/' + size + '/' + quantity,
+            type: 'GET',
             success: function(data){
-                reloadCart()
-            },
-            error: function(error) {
-
-                console.error('Error en la solicitud AJAX:', error);
-            },
-            complete: function() {
-                // Código que se ejecuta después de que la solicitud AJAX esté completa
-                // Esto se ejecutará incluso en caso de error
+                if(data.available){
+                    $.ajax({
+                        type: 'POST',
+                        url: "/add_to_cart", 
+                        data: {'id' : id, 'size' : size, 'quantity' : quantity},
+                        success: function(data){
+                            reloadCart()
+                        },
+                        error: function(error) {
+            
+                            console.error('Error en la solicitud AJAX:', error);
+                        },
+                        complete: function() {
+                            // Código que se ejecuta después de que la solicitud AJAX esté completa
+                            // Esto se ejecutará incluso en caso de error
+                        }
+                    })
+                }else{
+                    alert('thers no more stock')
+                }
             }
         })
+
     })
 }

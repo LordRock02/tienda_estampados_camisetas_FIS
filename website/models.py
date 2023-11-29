@@ -15,6 +15,7 @@ class Print_detail(db.Model):
 class Purchase_detail(db.Model):
     tshirt_id=db.Column(db.Integer, db.ForeignKey('tshirt.tshirt_id'), primary_key=True)
     purchase_id=db.Column(db.Integer, db.ForeignKey('purchase.purchase_id'), primary_key=True)
+    subTotal=db.Column(db.Integer, nullable=False)
 class Warehouse(db.Model):
     tshirt_id=db.Column(db.Integer, db.ForeignKey('tshirt.tshirt_id'), primary_key=True)
     size_id=db.Column(db.Integer, db.ForeignKey('size.size_id'), primary_key=True)

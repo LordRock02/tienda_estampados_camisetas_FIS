@@ -302,10 +302,14 @@ def redirect_tshirt_view():
     id = request.args.get('id')
     return jsonify ({'url' : url_for('views.tshirts_view', id = id)})
 
-@store.route('/get_stock')
-def get_stock(id, size):
-    stock = Warehouse.query.filter(tshirt_id=id, size_id = size).first()
-    return jsonify ({'stock' : stock.stock})
+@store.route('/get_stock_available/<id>/<size>/<quantity>', methods = ['GET','POST'])
+def get_stock_available(id, size, quantity):
+    stock = Warehouse.query.filter_by(tshirt_id = id, size_id = size).first()
+    counter = int(quantity)
+    for tshirt in sesion.getShoppingCart().getTShirts():
+        if str(tshirt.getId()) == id and str(tshirt.getSize()) == size:
+            counter += 1
+    return jsonify ({'available' : counter <= int(stock.stock)})
 
 
         

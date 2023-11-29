@@ -7,6 +7,7 @@ from .models import Artist
 from .models import db
 from .models import Category
 from .models import Print_detail
+from .models import purchase
 from .logic.store import *
 from .logic.t_shirt import Tshirt
 from .logic.shopping_cart import ShoppingCart
@@ -60,7 +61,11 @@ def customize():
 
 @views.route('/calcular_total', methods=['GET','POST'])
 def calcular_total():
-
+    """if request.method=='POST':
+        purchase = Purchase(user_id=Customer.query.filter_by(user_id=sesion.getUser().getId()), total = sesion.getShoppingCart().getTotal())
+        db.session.add(purchase)
+        db.session.commit()
+        pass"""
     return render_template('pagos.html')
 
 
