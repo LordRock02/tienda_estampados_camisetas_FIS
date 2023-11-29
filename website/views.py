@@ -124,4 +124,23 @@ def uploadDesign():
         return redirect(url_for('views.home'))
         """return redirect(url_for('views.design_details'))"""
     return render_template("upload_print.html", categories=categories)
+@views.route('/upload-tshirt', methods=['GET', 'POST'])
+def uploadTshirt():
+    if request.method=='POST':
+        uploaded_print = request.files.get('print')
+        if uploaded_print.filename!='':
+            filename = secure_filename(uploaded_print.filename)
+            file_path = os.path.join(UPLOAD_FOLDER, filename)
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            uploaded_print.save(file_path)
+            tshirt = TshirtTable(image=filename, cost=29500, name = request.form.get('print-name'), show=False)
+            db.session.add(tshirt)
+            db.session.commit()
+            for i in range(4):
+                print(i)
+                db.session.add(Warehouse(tshirt_id=tshirt.tshirt_id, size_id=int(i)+1), 0)
+                db.session.commit()
+        return redirect(url_for('views.home'))
+        """return redirect(url_for('views.design_details'))"""
+    return render_template("upload_tshirt.html")
 

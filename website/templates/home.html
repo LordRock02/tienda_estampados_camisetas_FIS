@@ -35,10 +35,11 @@
       </div>
       <div class="row">
         {% for tshirt in tshirts %}
+        {% if tshirt.show %}
         <div class="col-lg-4 pt-4">
           <div class="card" style="width: 18rem;">
             <div style="display: flex; justify-content: center; align-items: center;">
-              <img src="static/img/CamisasHome/{{tshirt.image}}" class="card-img-top img-fluid" alt="{{tshirt.name}}">
+              <img src="/static/img/CamisasHome/{{tshirt.image}}" class="card-img-top img-fluid" alt="{{tshirt.name}}">
             </div>
             <div class="card-body">
               <h5 class="card-title">{{tshirt.name}}</h5>
@@ -47,6 +48,7 @@
             </div>
           </div>
         </div>
+        {% endif %}
         {% endfor %}
       </div>
     </section>

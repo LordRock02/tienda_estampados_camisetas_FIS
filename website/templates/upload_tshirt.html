@@ -1,0 +1,56 @@
+{% extends "home_base.html" %}
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" integrity="sha512-jU/7UFiaW5UBGODEopEqnbIAHOI8fO6T99m7Tsmqs2gkdujByJfkCbbfPSN4Wlqlb9TGnsuC0YgUgWkRBK7B9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+{% block title%}{% endblock %} 
+{% block content %} 
+<form enctype="multipart/form-data" method="POST">
+    <div class="center">
+        <label for="input-file" id="drop-area">
+            <input type="file" accept="image/*" id="input-file" name="print" hidden>
+            <div id="img-view">
+                <img src="{{url_for('static', filename='img/upload-cloud.svg')}}">
+                <p>Drag and drop or click here<br>to upload your design</p>
+                <span>Upload any images from desktop</span>
+            </div>
+        </label>
+    </div>
+  <div class="center mt-5">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">Upload</button>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="ModalLabel">print details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="print-name" class="col-form-label">Nombra tu estampa</label>
+            <input type="text" class="form-control" name="print-name">
+          </div>
+          <div class="mb-3">
+            <div class="botones">
+              {% for category in categories %}
+                <button type="button" class="btn category-btn my-1 mx-1"  name="{{ category.category_name}}" id="{{ category.category_id }}">
+                  {{ category.category_name }}
+                  <i class="fa fa-plus" style="color: rgb(137, 137, 137);"></i>
+                  <input type="hidden" name="selected_categories[]" value="">
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+          <input type="hidden" id="hidden-input" name="hidden-input" value="">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn" href="/">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js" integrity="sha512-U2WE1ktpMTuRBPoCFDzomoIorbOyUv0sP8B+INA3EzNAhehbzED1rOJg6bCqPf/Tuposxb5ja/MAUnC8THSbLQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}

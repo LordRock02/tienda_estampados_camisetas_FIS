@@ -22,6 +22,7 @@ PORT = 5432
 URL: sqlite:///{DB_NAME}.db"""
 
 UPLOAD_FOLDER = 'website/static/img/uploadedPrints'
+UPLOAD_FOLDER = 'website/static/img/CamisasHome'
 
 def create_app():
     app = Flask(__name__)

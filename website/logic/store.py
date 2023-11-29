@@ -7,6 +7,8 @@ from ..models import Tshirt as TshirtTable
 from ..models import Admin
 from ..models import Size
 from ..models import Warehouse
+from ..models import purchase
+from ..models import Purchase_detail
 from .user import User
 from .t_shirt import Tshirt
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -322,12 +324,28 @@ def add_to_stock():
     id = request.form['id']
     size = request.form['size']
     quantity = int(request.form['quantity'])
-    print(id, size, quantity)
-    session = db.session
-    warehouse = session.query(Warehouse).filter(Warehouse.tshirt_id == id and Warehouse.size_id == size).first()
-    warehouse.stock = warehouse.stock + quantity
-    session.commit()
+    print(f'id {id}', f'talla {size}', f'cantidad {quantity}')
+    stock = Warehouse.query.filter_by(tshirt_id = id, size_id = size).first()
+    stock.stock += quantity
+    db.session.commit()
+    return ('', 204)
 
+@store.route('/finish_purchase', methods=['GET', 'POST'])
+def finish_purchase():
+    customer = Customer.query.filter_by(user_id = sesion.getUser().getId()).first()
+    print('id comprador', customer.customer_id)
+    compra = purchase(customer_id = customer.customer_id, total = sesion.getShoppingCart().getTotal())
+    db.session.add(compra)
+    db.session.commit()
+    for key, value in sesion.getShoppingCart().getQuantityPerModel().items():
+        db.session.add(Purchase_detail(purchase_id = compra.purchase_id, tshirt_id = key, quantity=value, subTotal=sesion.getShoppingCart().getSubTotal(key)))
+        db.session.commit()
+    for tshirt in sesion.getShoppingCart().getTShirts():
+        stock = Warehouse.query.filter_by(tshirt_id=tshirt.getId(), size_id=tshirt.getSize()).first()
+        stock.stock -= 1
+        db.session.add(stock)
+        db.session.commit()
+    sesion.getShoppingCart().setTShirts([])
     return ('', 204)
     
 

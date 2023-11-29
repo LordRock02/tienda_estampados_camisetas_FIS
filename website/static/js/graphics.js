@@ -88,13 +88,17 @@ $(document).ready(function(){
     $('#addToCart').click(function(){
         addToCart($(this).attr('value'),$('#sizeTshirt option:selected').val(),$('#quantityTshirt').val())
     })
-    $('#stockBtn').click(function(){
+    $('.stockBtn').click(function(){
+        alert('ver stock')
         redirectTshirtViewAdmin($(this).attr('value'))
     })
-    $('#addToStock').click(function(){
+    $('.addToStock').click(function(){
         alert('stock')
         addToStock($(this).attr('value'),$('#sizeTshirt option:selected').val(),$('#quantityTshirt').val())
 
+    })
+    $('.payBtn').click(function(){
+        purchase()
     })
     /*$("option[value='{{ size.id }}']").on("change", function(){
         // llamar a la función addToCart con los argumentos correspondientes
@@ -309,10 +313,16 @@ function getUser(){
         .then(response => response.json())
         .then(data => {
             console.log('usuario',data.user.role)
+            var contenido = $('#navUl').html()
+            $('#goToManage').remove()
+            $('#goUploadTshirts').remove()
             if (data.user.role == 'admin'){
                 var li = $('<li class="nav-link">')
                 li.html('<a class="nav-link" id="goToManage" href="/tshirts_admin"><b>Manage Tshirts</b></a>')
-                $('#navMenu').append(li)
+                $('#navUl').append(li)
+                li = $('<li class="nav-link">')
+                li.html('<a class="nav-link" id="goUploadTshirts" href="/upload-tshirt"><b>Upload Tshirts</b></a>')
+                $('#navUl').append(li)
             }
         })
     })
@@ -380,6 +390,26 @@ function addToStock(id, size, quantity){
             url: "/add_to_stock", 
             data: {'id' : id, 'size' : size, 'quantity' : quantity},
             success: function(data){
+                reloadCart()
+            },
+            error: function(error) {
+
+                console.error('Error en la solicitud AJAX:', error);
+            },
+            complete: function() {
+                // Código que se ejecuta después de que la solicitud AJAX esté completa
+                // Esto se ejecutará incluso en caso de error
+            }
+        })
+    })
+}
+function purchase(){
+    $(document).ready(function(){
+        alert('comprando')
+        $.ajax({
+            type: 'POST',
+            url: '/finish_purchase', 
+            success: function(){
                 reloadCart()
             },
             error: function(error) {

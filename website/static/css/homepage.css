@@ -86,6 +86,7 @@
     background-color: #b3b3b3;
     height: 100vh;
     transition: 0.5s;
+    overflow: auto;
 }
 .shoppingCart h1{
     font-weight: 100;
@@ -97,7 +98,7 @@
 }
 
 .bottomShoppingDiv{
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     height: fit-content;
@@ -179,10 +180,6 @@
 .active .shoppingCart{
     left:  calc(100% - 600px);
 }
-.active .container{
-    /*transform: translateX(-200px);*/
-}
-
 .listCard li{
     display: grid;
     grid-template-columns: 100px repeat(3,1fr);

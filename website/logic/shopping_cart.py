@@ -22,3 +22,12 @@ class ShoppingCart:
             if str(tShirt.getId()) == str(id):
                 cost+=tShirt.getTotalCost()
         return cost
+    def getQuantityPerModel(self):
+        quantityPerModel = {}
+        ids = []
+        for tShirt in self.__tShirts:
+            if not tShirt.getId() in quantityPerModel.keys():
+                quantityPerModel.update({tShirt.getId() : 1})
+            else:
+                quantityPerModel[tShirt.getId()] += 1
+        return quantityPerModel

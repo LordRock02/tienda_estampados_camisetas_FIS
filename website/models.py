@@ -15,11 +15,12 @@ class Print_detail(db.Model):
 class Purchase_detail(db.Model):
     tshirt_id=db.Column(db.Integer, db.ForeignKey('tshirt.tshirt_id'), primary_key=True)
     purchase_id=db.Column(db.Integer, db.ForeignKey('purchase.purchase_id'), primary_key=True)
-    subTotal=db.Column(db.Integer, nullable=False)
+    quantity=db.Column(db.Integer)
+    subTotal=db.Column(db.Integer)
 class Warehouse(db.Model):
     tshirt_id=db.Column(db.Integer, db.ForeignKey('tshirt.tshirt_id'), primary_key=True)
     size_id=db.Column(db.Integer, db.ForeignKey('size.size_id'), primary_key=True)
-    stock=db.Column(db.Integer, nullable=False)
+    stock=db.Column(db.Integer)
 #entity tables
 class User(db.Model):
     user_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
@@ -55,6 +56,7 @@ class purchase(db.Model):
     customer_id=db.Column(db.Integer, db.ForeignKey('customer.customer_id'))
     Purchase_detail=db.relationship('Tshirt', secondary=Purchase_detail.__table__, backref='tshirts')
     date= db.Column(db.DateTime(timezone=True), default=func.now())
+    total=db.Column(db.Integer, nullable=False)
 class Tshirt(db.Model):
     tshirt_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     image=db.Column(db.String(100), nullable=False)

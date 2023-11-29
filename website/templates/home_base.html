@@ -22,7 +22,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navMenu">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav" id="navUl">
             <li class="nav-link">
               <a class="nav-link" href="/"><b>Home</b></a>
             </li>
@@ -33,11 +33,14 @@
               <a class="nav-link" href="/tshirts"><b>T-Shirt</b></a>
             </li>
             <li class="nav-link">
-              <a class="nav-link" href="/customize"><b>Customize</b></a>
-            </li>
-            <li class="nav-link">
               <a class="nav-link" id="goToUploadBtn"><b>Upload your design</b></a>
             </li>
+            <!--
+            <li class="nav-link">
+              <a class="nav-link" href="/customize"><b>Customize</b></a>
+            </li>
+            -->
+
           </ul>
         </div>
         <div>
@@ -61,7 +64,7 @@
     {% endblock %}
     </div>
     <div class="shoppingCart">
-      <div class="">
+      <div class=""  style="overflow: auto;">
         <div class="header">
           <h1>shopping cart</h1>
           <button type="button" class="btn-close closeShoppingCart" id="closeShoppingCart" aria-label="Close"></button>
