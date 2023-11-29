@@ -130,7 +130,7 @@ def uploadTshirt():
         uploaded_print = request.files.get('print')
         if uploaded_print.filename!='':
             filename = secure_filename(uploaded_print.filename)
-            file_path = os.path.join(UPLOAD_FOLDER, filename)
+            file_path = os.path.join('website/static/img/CamisasHome', filename)
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
             uploaded_print.save(file_path)
             tshirt = TshirtTable(image=filename, cost=29500, name = request.form.get('print-name'), show=False)
