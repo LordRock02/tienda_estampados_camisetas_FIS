@@ -36,12 +36,12 @@ $(document).ready(function(){
     /*
         reescale images
     */
-    var width = $('.card-img-top').clientWidth;
-    var height = $('.card-img-top').clientHeight;
+    var width = $('.store').clientWidth;
+    var height = $('.store').clientHeight;
     var ratio = width/height;
-    $('.card-img-top').height(300);
-    $('.card-img-top').width(260);
-    $('.card-img-top').css('object-fit','contain');
+    $('.store').height(300);
+    $('.store').width(260);
+    $('.store').css('object-fit','contain');
 
     $('#signInBtn').click(function(){
         alert('boton presionado')
@@ -73,6 +73,7 @@ $(document).ready(function(){
     })
     $('.logOutBtn').click(function(){
         alert('Log Out')
+        logOut()
     })
     $('#addPrintBtn').click(function(){
         alert($(this).attr('value'))
@@ -99,6 +100,13 @@ $(document).ready(function(){
     })
     $('.payBtn').click(function(){
         purchase()
+    })
+    $('#signUpBtn').click(function(){
+        alert('hola')
+        redirectSignUp()
+    })
+    $('#signInBtn').click(function(){
+        alert('hola')
     })
     /*$("option[value='{{ size.id }}']").on("change", function(){
         // llamar a la función addToCart con los argumentos correspondientes
@@ -209,7 +217,6 @@ function removeTshirt(id, size){
 }
 
 function logOut(){
-    alert('Log Out')
     $(document).ready(function(){
         $.ajax({
             type: 'POST',
@@ -279,7 +286,8 @@ function getView(){
         type: 'GET',
         success: function(data){
             $(document).ready(function(){
-                $('#userOptions')
+                $('#signInDropDown').remove
+                $('#signUpDropDown').remove
                 if(data.loggedIn){
                     console.log('esta loggeado')
                     $('#userOptions').append($('<li>').html('<a class="dropdown-item logOutBtn" id="logOutBtn" onclick="logOut()">log out</a>'))
@@ -292,8 +300,8 @@ function getView(){
 
                 }else{
                     console.log('no esta loggeado')
-                    $('#userOptions').append($('<li>').html('<a href="/sign-in" class="dropdown-item">Sign-in</a>'))
-                    $('#userOptions').append($('<li>').html('<a href="/sign-up" class="dropdown-item">Sign-up</a>'))
+                    $('#userOptions').append($('<li id="signInDropDown">').html('<a href="/sign-in" class="dropdown-item">Sign-in</a>'))
+                    $('#userOptions').append($('<li id="signUpDropDown">').html('<a href="/sign-up" class="dropdown-item">Sign-up</a>'))
                 }
             })
         },

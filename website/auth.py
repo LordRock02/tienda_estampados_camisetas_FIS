@@ -14,7 +14,7 @@ def login():
         succes=login_usr(request.form.get('nickname'),  password=request.form.get('password'))
         if succes:
             flash('Logged in successfully!', category='success')
-            return render_template('home.html', isLoggedIn=True)
+            return redirect(url_for('views.home'))
         else:
             flash('The password or the user doesn\'t match', category='error')
     return render_template("sign_in.html", isLoggedIn=True)
@@ -22,7 +22,6 @@ def login():
 @auth.route('/logout', methods=['POST'])
 def logout():
     sesion.logOut()
-    print('el usuario se salio aflksjdlaksdjf;laksdjf;laksjdflaksdj')
     return('', 204)
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
