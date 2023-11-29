@@ -35,13 +35,18 @@ def tshirts():
     tshirts = TshirtTable.query.all()
     if request.method == 'GET':
         pass
-    return render_template("t-shirts.html", tshirts=tshirts)
+    return render_template("t-shirts.html")
 
 
-@views.route('/tshirts_view')
-def tshirts_view():
-    from .logic.t_shirt import precios
-    return render_template("t-shirts_view.html", precios=precios)
+@views.route('/tshirts_view/<id>')
+def tshirts_view(id):
+    tshirt = TshirtTable.query.filter_by(tshirt_id=id).first()
+    list = Warehouse.query.filter_by(tshirt_id=id)
+    sizes = []
+    for item in list:
+        sizes.append({'size':getSize(item.size_id), 'id' : item.size_id})
+    print('tallas', sizes)
+    return render_template("t-shirts_view.html", tshirt=tshirt, sizes=sizes)
 
 @views.route('/customize')
 def customize():
@@ -53,7 +58,7 @@ def customize():
     return render_template("customize.html", prints=prints, artists=artists, precios=precios)
 
 
-@views.route('/calcular_total', methods=['GET'])
+@views.route('/calcular_total', methods=['GET','POST'])
 def calcular_total():
 
     return render_template('pagos.html')

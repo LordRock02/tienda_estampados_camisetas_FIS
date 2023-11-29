@@ -28,7 +28,7 @@ def logout():
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     if request.method=='POST':
-        message=create_usr(request.form.get('nickname'), request.form.get('email'), request.form.get('password'), request.form.get('password2'))
+        message=create_usr(request.form.get('nickname'), request.form.get('email'), request.form.get('password'), request.form.get('password2'), request.form.get('name'), request.form.get('lastName'))
         if message!='':
             flash(message, category='error')
         else:

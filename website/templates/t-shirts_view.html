@@ -5,29 +5,27 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card">
-                <img src="{{url_for('static', filename='img/CamisasHome/1.png')}}" alt="Camiseta Estándar" class="card-img-top">
+                <img src="/static/img/CamisasHome/{{tshirt.image}}" alt="Camiseta Estándar" class="card-img-top">
             </div>
         </div>
         <div class="col-md-6">
-            <form action="/calcular_total" method="post" class="card-body">
-                <h2 class="mb-4">Camiseta Estándar</h2>
+                <h2 class="mb-4">{{tshirt.name}}</h2>
 
                 <div class="form-group">
                     <label for="size">Talla:</label>
-                    <select class="form-control" name="size">
-                        {% for key, value in precios.items() %}
-                            <option value="{{ key }}">{{ key }}</option>
+                    <select class="form-control" name="size"  id="sizeTshirt">
+                        {% for size in sizes %}
+                        <option value="{{ size.id }}">{{ size.size }}</option>
                         {% endfor %}
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="quantity">Cantidad:</label>
-                    <input type="number" class="form-control" name="quantity" min="1" value="1">
+                    <input type="number" class="form-control" name="quantity" min="1" value="1" id="quantityTshirt">
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="margin-top: 3%;">Comprar</button>
-            </form>
+                <button type="submit" class="btn btn-primary" style="margin-top: 3%;" id="addToCart" value="{{tshirt.tshirt_id}}">Comprar</button>
         </div>
     </div>
 </div>

@@ -43,6 +43,9 @@ def create_app():
     with app.app_context():
         db.create_all()
         insertCategories()
+        insertSizes()
+        insertAdmin()
+        insertInitialTshirts()
 
     return app
 

@@ -1,3 +1,9 @@
+sizes = {
+    '1' : 'small',
+    '2' : 'medium',
+    '3' : 'large', 
+    '4' : 'xlarge'
+}
 $(document).ready(function(){
     getUser()
     getView()
@@ -68,13 +74,25 @@ $(document).ready(function(){
     $('.logOutBtn').click(function(){
         alert('Log Out')
     })
+    $('#addPrintBtn').click(function(){
+        alert($(this).attr('value'))
+    })
     /*
         add products to the shopping cart
     */
 
     $('.addProduct').click(function(){
-        addTshirt($(this).attr('value'))
+        //addTshirt($(this).attr('value'))
+        redirectTshirtView($(this).attr('value'))
     })
+    $('#addToCart').click(function(){
+        addToCart($(this).attr('value'),$('#sizeTshirt option:selected').val(),$('#quantityTshirt').val())
+    })
+    /*$("option[value='{{ size.id }}']").on("change", function(){
+        // llamar a la función addToCart con los argumentos correspondientes
+        alert('hola')
+        addToCart('{{ tshirt.tshirt_id }}', '{{ size.id }}', this.value);
+    });*/
 });
 function reloadCart(){
     $(document).ready(function(){
@@ -85,6 +103,7 @@ function reloadCart(){
             $.each(data, function(key, value){
                 shoppingList[key] = value
             })
+            console.log(shoppingList)
             let count = 0
             let totalPrice = 0
             $('.listCard').empty()
@@ -94,13 +113,13 @@ function reloadCart(){
                 count += value.quantity
                 if(value != null){
                    let newDiv = $('<li>')
-                   newDiv.html('<div><img src="static/img/CamisasHome/'+ value.image+ '" class="shoppingCard img-fluid"/></div>'+
-                    '<div>' + value.name + '</div>' +
+                   newDiv.html('<div><img src="/static/img/CamisasHome/'+ value.image+ '" class="shoppingCard img-fluid"/></div>'+
+                    '<div>' + value.name + ' ' + sizes[value.size] + '</div>' +
                     '<div>' + value.price + '</div>' +
                     '<div>' + 
-                        '<button class="btn" id="minusBtn" onclick="removeTshirt(' + value.id + ')">-</button>' +
+                        '<button class="btn" id="minusBtn" onclick="removeTshirt(' + value.id + ', ' + value.size + ')">-</button>' +
                         '<div class="mx-3">' + value.quantity + '</div>' +
-                        '<button class="btn" id="plusBtn" onclick="addTshirt(' + value.id + ')">+</button>' + 
+                        '<button class="btn" id="plusBtn" onclick="addToCart(' + value.id + ', ' + value.size +', 1)">+</button>' + 
                     '</div>' +
                     '<div style="margin-bottom: 24px;"></div>') 
                    $('.listCard').append(newDiv)
@@ -138,7 +157,7 @@ function loadShoppingList(){
                    newDiv.html('<div class="d-flex justify-content-between align-items-center mb-2">'+
                         '<div class="d-flex" style="display: inline-block;">' +
                             '<div>' +
-                            '<img src="static/img/CamisasHome/' + value.image + '" alt="Producto 1" class="mr-2" style="width: 10%;">' +
+                            '<img src="/static/img/CamisasHome/' + value.image + '" alt="Producto 1" class="mr-2" style="width: 10%;">' +
                             '<span class="position-relative top-50 translate-middle badge bg-primary" id="quantityCircle">' + value.quantity + '</span>' +
                             '</div>' + 
                             '<div style="text-align:center;">' + value.name + '</div>' + 
@@ -155,33 +174,13 @@ function loadShoppingList(){
         })
     })
 }
-function addTshirt(id){
-    $(document).ready(function(){
-        $.ajax({
-            type: 'POST',
-            url: "/add_to_cart", 
-            data: {'id' : id},
-            success: function(data){
-                reloadCart()
-            },
-            error: function(error) {
-                // Código que se ejecuta en caso de error de la solicitud AJAX
-                console.error('Error en la solicitud AJAX:', error);
-            },
-            complete: function() {
-                // Código que se ejecuta después de que la solicitud AJAX esté completa
-                // Esto se ejecutará incluso en caso de error
-            }
-        })
-    })
-}
 
-function removeTshirt(id){
+function removeTshirt(id, size){
     $(document).ready(function(){
         $.ajax({
             type: 'POST',
             url: "/remove", 
-            data: {'id' : id},
+            data: {'id' : id, 'size' : size},
             success: function(data){
                 reloadCart()
             },
@@ -272,6 +271,12 @@ function getView(){
                 if(data.loggedIn){
                     console.log('esta loggeado')
                     $('#userOptions').append($('<li>').html('<a class="dropdown-item logOutBtn" id="logOutBtn" onclick="logOut()">log out</a>'))
+                    fetch('/getUser', {method:'POST'})
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                    })
+
                 }else{
                     console.log('no esta loggeado')
                     $('#userOptions').append($('<li>').html('<a href="/sign-in" class="dropdown-item">Sign-in</a>'))
@@ -295,6 +300,44 @@ function getUser(){
         .then(response => response.json())
         .then(data => {
             console.log(data)
+        })
+    })
+}
+function addPrintToCart(id){
+    $.ajax({
+        url: "/redirect_customize",
+        type: 'GET',
+        success: function(data){
+            console.log(data.url)
+            window.location.href = data.url
+        }
+    })
+}
+function redirectTshirtView(id){
+    console.log('hola desde redirectTshirtView')
+    $.get("/redirect_tshirt_view", {id : parseInt(id)}, function(data){
+        console.log(data.url)
+        window.location.href = data.url
+    })
+}
+function addToCart(id, size, quantity){
+    console.log('id', id, 'size', size, 'quantity', quantity)
+    $(document).ready(function(){
+        $.ajax({
+            type: 'POST',
+            url: "/add_to_cart", 
+            data: {'id' : id, 'size' : size, 'quantity' : quantity},
+            success: function(data){
+                reloadCart()
+            },
+            error: function(error) {
+
+                console.error('Error en la solicitud AJAX:', error);
+            },
+            complete: function() {
+                // Código que se ejecuta después de que la solicitud AJAX esté completa
+                // Esto se ejecutará incluso en caso de error
+            }
         })
     })
 }

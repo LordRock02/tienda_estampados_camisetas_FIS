@@ -15,6 +15,10 @@ class Print_detail(db.Model):
 class Purchase_detail(db.Model):
     tshirt_id=db.Column(db.Integer, db.ForeignKey('tshirt.tshirt_id'), primary_key=True)
     purchase_id=db.Column(db.Integer, db.ForeignKey('purchase.purchase_id'), primary_key=True)
+class Warehouse(db.Model):
+    tshirt_id=db.Column(db.Integer, db.ForeignKey('tshirt.tshirt_id'), primary_key=True)
+    size_id=db.Column(db.Integer, db.ForeignKey('size.size_id'), primary_key=True)
+    stock=db.Column(db.Integer, nullable=False)
 #entity tables
 class User(db.Model):
     user_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
@@ -52,12 +56,13 @@ class purchase(db.Model):
     date= db.Column(db.DateTime(timezone=True), default=func.now())
 class Tshirt(db.Model):
     tshirt_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
-    size=db.Column(db.String(10), nullable=False)
     image=db.Column(db.String(100), nullable=False)
     cost=db.Column(db.Integer, nullable=False)
     name=db.Column(db.String(50))
     description=db.Column(db.String(100))
+    show=db.Column(db.Boolean)
     tshirt_detail=db.relationship('Print', secondary=Tshirt_detail.__table__, backref='details')
+    Warehouse=db.relationship('Size', secondary=Warehouse.__table__, backref='sizes')
 class Print(db.Model):
     print_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     image=db.Column(db.String(100), nullable=False)
@@ -69,3 +74,8 @@ class Print(db.Model):
 class Category(db.Model):
     category_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
     category_name=db.Column(db.String(20), nullable=False)
+class Size(db.Model):
+    size_id=db.Column(db.Integer, primary_key=True, autoincrement=True, unique=True)
+    name=db.Column(db.String(10), nullable=False)
+
+ 
